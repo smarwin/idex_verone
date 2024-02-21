@@ -1,0 +1,2032 @@
+#: import Factory kivy.factory.Factory
+#: import Window kivy.core.window
+#:import images_path kivymd.images_path
+
+<AdaptBoxHeight@BoxLayout>:
+    size_hint_y: None
+    height: self.minimum_height
+
+<ALbl@Label>:
+    color: 0,0,0,1
+    text_size: self.size
+    halign: "left"
+    valign: "middle"
+    bold: True
+    markup: True
+
+<AlignedLabel@Label>:
+    color: 0,0,0,1
+    text_size: self.width, None
+    halign: "left"
+    size_hint_y: None
+    height: self.texture_size[1] #+ 20
+    bold: True
+    markup: True
+    font_size: 16
+
+<AlignedLabel_2@Label>:
+    color: 0,0,0,1
+    size_hint_x: 0.6
+    text_size: self.width, None
+    halign: "left"
+    valign: "middle"
+    size_hint_y: None
+    height: 40
+    bold: True
+    markup: True
+    font_size: 16
+
+
+
+
+
+<AnaChip>:
+    height: 40
+    icon: ""
+    check:True
+
+<ArrowWidget@Widget>:
+    pos_hint: {"center_y": .5}
+    size_hint: None, 1
+    width: 50
+    canvas:
+        Color:
+            rgba: 0,0,0,1
+        Line:
+            width: 1
+            points: self.x, self.y + self.height/2, self.right-10, self.y + self.height/2
+        Triangle:
+            points: self.right-10, self.y + self.height/2-5, self.right-10, self.y + self.height/2+5,self.right,self.y + self.height/2
+
+<BtnBox>
+
+<ButtonGrid_Info>:
+    cols: 3
+    size_hint_y: None
+    height: 50
+    padding: "48dp", 0
+    spacing: 15
+    canvas:
+        Color:
+            rgba: root.bg_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    ALbl:
+        text: root.sampleid
+        size_hint_x: 1
+        bold: False
+
+
+    ALbl:
+        text: root.info
+        size_hint_x: 3
+        bold: False
+
+    ALbl:
+        text: root.idea
+        size_hint_x: 5
+        bold: False
+
+<ButtonGrid_Reac>:
+    cols: 4
+    size_hint_y: None
+    height: 50
+    padding: "48dp", 0
+    spacing: 15
+    canvas:
+        Color:
+            rgba: root.bg_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    ALbl:
+        text: root.sampleid
+        size_hint_x: 1
+        bold: False
+
+    ALbl:
+        text: root.reactants
+        size_hint_x: 4
+        bold: False
+
+    ArrowWidget
+
+    ALbl:
+        text: root.products
+        size_hint_x: 4
+        bold: False
+
+<ButtonGrid_SWI>:
+    cols: 2
+    size_hint_y: None
+    height: 50
+    padding: "48dp", 0
+    spacing: 15
+    canvas:
+        Color:
+            rgba: root.bg_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    ALbl:
+        text: root.sampleid
+        size_hint_x: 1
+        bold: False
+
+    ALbl:
+        text: root.reactants
+        size_hint_x: 8
+        bold: False
+
+<ButtonGrid_One>:
+    cols: 2
+    size_hint_y: None
+    height: 50
+    padding: "48dp", 0
+    spacing: 15
+    canvas:
+        Color:
+            rgba: root.bg_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    ALbl:
+        text: root.sampleid
+        size_hint_x: 1
+        bold: False
+
+    ALbl:
+        text: root.one_cnt
+        size_hint_x: 8
+        bold: False
+
+<ConfirmPopup>:
+    size_hint: None,None
+    size: 500,200
+    auto_dismiss: False
+    background: '{}/transparent.png'.format(images_path)
+    # padding: 20,20,20,7
+    canvas:
+        Color:
+            rgba: root.theme_cls.bg_dark
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 7,7,7,7
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20,20
+
+        ALbl:
+            text: root.title
+            font_size: 20
+            valign: "top"
+            size_hint_y: None
+            height: 40
+
+        ALbl:
+            text: root.text
+            font_size: 16
+            valign: "top"
+            bold: False
+
+        BoxLayout:
+            Label
+            MDFlatButton:
+                text: "CANCEL"
+                text_color: root.theme_cls.primary_color
+                on_release: root.dismiss()
+
+            MDRaisedButton:
+                text: "ACCEPT"
+                text_color: root.theme_cls.opposite_text_color
+                md_bg_color: root.theme_cls.primary_color
+                on_release: root.on_accept()
+
+# <ImportCnt>:
+#     size_hint_y: None
+#     height: 50
+#     padding: "48dp", 0
+#     spacing: 15
+#     canvas:
+#         Color:
+#             rgba: root.bg_color
+#         Rectangle:
+#             pos: self.pos
+#             size: self.size
+#
+#     ALbl:
+#         text: root.sampleid
+#         size_hint_x: 1
+#         bold: False
+#
+#
+#     ALbl:
+#         text: root.info
+#         size_hint_x: 3
+#         bold: False
+#
+#     ALbl:
+#         text: root.idea
+#         size_hint_x: 5
+#         bold: False
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
+
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        padding: 10,25,10,25
+        Image:
+            source: "data/images/idex_verone_yellow.png"
+            size_hint_y: None
+            height: 120
+            width: 300
+            allow_stretch: True
+
+    ScrollView:
+        scroll_wheel_distance: 100
+        effect_cls: "ScrollEffect"
+
+
+        MDList:
+            id: md_list
+            ItemDrawer:
+                text: "Editor"
+                change_to: "editor"
+                icon: "file-edit-outline"
+
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = self.change_to
+
+            ItemDrawer:
+                text: "Reactants"
+                change_to: "reactants"
+                icon: "flask-outline"
+
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = self.change_to
+
+            # ItemDrawer:
+            #     text: "LabJournal"
+            #     change_to: "labjournal"
+            #     icon: "book-open-variant"
+            #
+            #     on_release:
+            #         root.nav_drawer.set_state("close")
+            #         root.screen_manager.current = self.change_to
+
+            ItemDrawer:
+                text: "Search"
+                change_to: "search"
+                icon: "magnify"
+
+                on_release:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = self.change_to
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        pos_hint: {"bottom": 1}
+        ItemDrawer:
+            text: "User"
+            change_to: "user"
+            icon: "account-circle-outline"
+
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = self.change_to
+
+        ItemDrawer:
+            text: "Settings"
+            change_to: "settings"
+            icon: "settings"
+            # pos_hint: {"bottom": 1}
+
+            on_release:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = self.change_to
+
+<CstmSpin>:
+    current_item: lbl.text
+    canvas.before:
+        Color:
+            rgba: [.9,.9,.9,.5] if self.state=="normal" else app.theme_cls.primary_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 7,7,7,7
+
+    size_hint: None,None
+    pos_hint: {"center_x": .5, "center_y": .5}
+    height: 50
+    width: self.minimum_width
+    on_release: root.menu.open()
+
+    Label:
+        id: lbl
+        text: "My Love"
+        halign: "left"
+        color: 0,0,0,1
+        bold: True
+        size_hint: None,1
+        width: self.texture_size[0]+40
+
+    MDIconButton:
+        icon: "chevron-down"
+        disabled: True
+        pos_hint: {"right": 1}
+        text_color: 1,0,0,1
+
+<DateBoxWithPicker>:
+    txtfld: txtfld
+    lbl: lbl
+    orientation: "vertical"
+    size_hint_y: None
+    # size_hint_x: None
+    spacing: 3
+    text: txtfld.text
+    size: self.minimum_size
+    pos_hint: {"center_x": .5, "center_y": .5}
+
+    Label:
+        id: lbl
+        text: "DATE"
+        color: app.theme_cls.primary_color #if txtfld.focus or txtfld.text != "" else [0,0,0,0]
+        bold: True
+        font_size: txtfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+    BoxLayout:
+        size_hint: 1,None
+        height: txtfld.height
+        spacing: 6,0
+        TextInput:
+            id: txtfld
+            text: root.txt
+            canvas.after:
+                Color:
+                    rgba: [.6,.6,.6,1] if not self.focus else app.theme_cls.primary_color
+
+                Line:
+                    width: 1 if not self.focus else 1.2
+                    rounded_rectangle: self.x, self.y, self.width, self.height, 7
+
+            hint_text: root._hint_text if not self.focus else ""
+            hint_text_color: [.4,.4,.4,1]
+            font_size: root._font_size
+            pos_hint: {"center_x": .5, "center_y": .5}
+            size_hint: 1, None
+            # size_hint_max_x: 250
+            # size_hint_min_x: 150
+            height: self.font_size * 2.5
+            halign: root._halign
+            padding: [10, (self.height - self.line_height) / 2,10,0]
+            background_normal: ""
+            background_active: ""
+            background_disabled_normal: ""
+            multiline: False
+            write_tab: False
+
+        Toolicon:
+            icon: "calendar"
+            tooltip_text: "Calendar"
+            pos_hint: {"center_y": .5}
+            # on_release: root.open_datepicker()
+
+    Label:
+        id: btmlbl
+        text: "nothing"
+        color: [0,0,0,0]
+        # bold: True
+        font_size: txtfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+<DDClass@DropDown>:
+    container: Factory.get("DDContainer")
+
+<DDContainer@GridLayout>
+
+    canvas.before:
+
+        Color:
+            rgba: .95,.95,.95,1
+
+        RoundedRectangle:
+            radius: 12,12,12,12
+            pos: self.x, self.y + 5
+            size: self.width, self.height - 10
+
+        # Color:
+        #     rgba: app.theme_cls.primary_color
+        # Line:
+        #     rounded_rectangle: self.x,self.y+10,self.width,self.height-10,
+        #     width: 1.5
+
+    padding: 0,10
+    size_hint_y: None
+    height: self.minimum_height
+    cols: 1
+
+<DDSpinner>:
+    canvas.before:
+        Color:
+            rgba: [.9,.9,.9,1] if self.state == "normal" else app.theme_cls.primary_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 7,7,7,7
+
+    values: root.values
+    background_normal: ""
+    background_active: ""
+    background_disabled_normal: ""
+    background_color: 0,0,0,0
+    font_size: root._font_size
+    pos_hint: {"center_x": .5, "center_y": .5}
+    size_hint: 1, None
+    # size_hint_min_x: self.texture_size[0] + 100
+    height: self.font_size * 2.5
+    option_cls: Factory.get("SpinButton")
+    # dropdown_cls: Factory.get("DDClass")
+    text_autoupdate: True
+    markup: True
+    bold: True
+
+<DeleteButton>
+    icon: "window-close"
+    user_font_size: 20
+    size_hint: None,None
+    size: 40,40
+    pos_hint: {"center_y": .5, "center_x": .5}
+    on_release: app.root.editor.swi.delete_selected_row(self.box)
+
+<DownButton>
+    icon: "chevron-down"
+    user_font_size: 20
+    size_hint: None,None
+    size: 30,20
+    pos_hint: {"center_y": .5, "center_x": .5}
+    on_release: app.root.editor.swi.move_row_down(self.box)
+
+<EditorPanel>:
+    size_hint_x: 1
+    size_hint_min_x: 680
+
+<ExpBtn>:
+    size_hint_y: None
+    height: self.minimum_height
+    padding: 15,8
+    spacing: 20
+    on_release: app.root.ids.editor.fill_modules(self.sample, "complete","info","idea", "reaction", "swi", "additives", "method", "expdet", "tp", "ap", "ana","anadet", "prod", "res"), app.root.ids.editor.open_all_panels()
+
+    canvas.before:
+        Color:
+            rgba: root.bg_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        size_hint: None,None
+        size: 50,30
+        padding: 3
+        pos_hint: {"center_y": .5}
+        canvas.before:
+            Color:
+                rgba: root.met_color
+            RoundedRectangle:
+                size: self.size
+                radius: 5,5,5,5
+                pos: self.pos
+
+        Label:
+            text: root.met_text
+            color: root.met_text_color
+            font_size: 13
+            # text_size: self.size
+            # halign: "center"
+            # valign: "middle"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            bold: True
+            markup: True
+
+
+    Label:
+        id: lbl
+        text: root.sidtag
+        color: root.text_color
+        text_size: self.size
+        halign: "left"
+        valign: "middle"
+        bold: True
+        markup: True
+
+<FltBtn>:
+    size_hint_x: None
+    width: self.texture_size[0] + 20
+    background_down: ""
+    background_normal: ""
+    background_disabled_normal: ""
+    background_color: 0,0,0,0
+    color: root.theme_cls.primary_color if self.state == "normal" else root.theme_cls.accent_color
+    bold: True
+
+<FocusButton>:
+    size_hint_y: None
+    background_down: ""
+    background_normal: ""
+    background_disabled_normal: ""
+    background_color: 0,0,0,0
+    color: [0,0,0,1]
+    text_size: self.width-40, None
+    height: (self.texture_size[1] + 20) if self.texture_size[1] > 40 else 40
+    halign: "center"
+    on_enter: setattr(self, "background_color", app.theme_cls.primary_color)
+    on_leave: setattr(self, "background_color", [0,0,0,0])
+
+<IcnBtn>:
+    size_hint: None,None
+    size: 40,17.5
+    canvas.before:
+        Color:
+            rgba: self.bg_color #if self.state == "normal" \
+                # else root.theme_cls.accent_color
+        RoundedRectangle:
+            radius: root.radius
+            pos: self.pos
+            size: self.size
+    MDIcon:
+        id: chevup
+        icon: root.icon
+        font_size: root.font_size
+        pos_hint: {"center_y": .5}
+        halign: root.halign
+        valign: root.valign
+        theme_text_color: "Custom"
+        text_color: root.text_color #\
+            # if root.state == "normal" \
+            # else root.theme_cls.text_color
+
+<ImportPopup>:
+    size_hint: 0.7, 0.8
+    auto_dismiss: False
+    background: '{}/transparent.png'.format(images_path)
+    padding: 20,20,20,20
+    canvas:
+        Color:
+            rgba: root.theme_cls.bg_dark
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: root.radius
+    BoxLayout:
+        orientation: "vertical"
+        # padding: 7,7,7,7
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            height: self.minimum_height
+            padding: 0,0,0,10
+            spacing: 15
+            MDLabel:
+                id: title
+                text: "Import Information"
+                font_style: "H5"
+                bold: True
+                markup: True
+                size_hint_y: None
+                height: self.texture_size[1]
+                valign: "top"
+
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                # padding: "48dp", 0
+
+                SpinBox:
+                    id: op
+                    _lbl: "Operator"
+                    values: root.ops_list
+                    size_hint_x: None
+                    width: 250
+                    on_method: root.create_content(self.method)
+
+                Widget:
+                    size_hint_x: 2
+
+                TextBox:
+                    id: filter
+                    _lbl: "Filter"
+                    _hint_text: "e.g. MD001 TAG"
+                    _btmlbl: "e.g. MD001 TAG"
+                    on_text: root.create_content(op.text)
+
+        GridLayout:
+            id: col_titles
+            cols: len(root.names_dict[root.module])
+            size_hint_y: None
+            height: 50
+            padding: "48dp", 0
+            spacing: 15
+
+            canvas.before:
+                Color:
+                    rgba: .9,.9,.9,1
+                RoundedRectangle:
+                    radius: 7,7,7,7
+                    pos: self.pos
+                    size: self.size
+
+        RecycleView:
+            id: rv_import
+            data: root.btngrid_list
+            viewclass: "Label"
+            barwidth: 8
+            scroll_type: ["bars"]
+            scroll_wheel_distance: 100
+            effect_cls: "ScrollEffect"
+            RecycleBoxLayout:
+                orientation: "vertical"
+                padding: 0,10,0,10
+                default_size: None, 40
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+
+        AnchorLayout:
+            id: root_button_box
+            size_hint_y: None
+            height: "52dp"
+            anchor_x: "right"
+            anchor_y: "bottom"
+
+            MDRaisedButton:
+                text: "Cancel"
+                text_color: 1,1,1,1
+                md_bg_color: root.theme_cls.primary_color
+                on_release: root.dismiss()
+            #
+            # MDFlatButton:
+            #     text: "CANCEL"
+            #     text_color: root.theme_cls.primary_color
+            #     on_release: root.dismiss()
+
+<InfoPopup>:
+    size_hint: None,None
+    size: 500,200
+    auto_dismiss: False
+    background: '{}/transparent.png'.format(images_path)
+    # padding: 20,20,20,7
+    canvas:
+        Color:
+            rgba: root.theme_cls.bg_dark
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 7,7,7,7
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20,20
+
+        ALbl:
+            text: root.title
+            font_size: 20
+            valign: "top"
+            size_hint_y: None
+            height: 40
+
+        ALbl:
+            text: root.text
+            font_size: 16
+            valign: "top"
+            bold: False
+
+        BoxLayout:
+            Label
+
+            MDRaisedButton:
+                text: "OKAY"
+                text_color: root.theme_cls.opposite_text_color
+                md_bg_color: root.theme_cls.primary_color
+                on_release: root.dismiss()
+
+<ItemDrawer>:
+    icon: "file-edit-outline"
+    change_to: "scr 1"
+
+    IconLeftWidget:
+        id: icon
+        icon: root.icon
+        disabled: True
+
+<Label>:
+    color: 0,0,0,1
+
+<LabelBox>:
+    lblfld: lblfld
+    lbl: lbl
+    text: lblfld.text
+    orientation: "vertical"
+    size_hint_y: None
+    size_hint_x: 1
+    spacing: 3
+    height: self.minimum_height
+    pos_hint: {"center_x": .5, "center_y": .5}
+    Label:
+        id: lbl
+        text: root._lbl
+        color: app.theme_cls.primary_color
+        bold: True
+        markup: True
+        font_size: lblfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+    Label:
+        id: lblfld
+        canvas.before:
+            Color:
+                rgba: [.9,.9,.9,.5]
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: 7,7,7,7
+
+        text: root.txt
+        font_size: root._font_size
+        pos_hint: {"center_x": .5, "center_y": .5}
+        size_hint: 1, None
+        height: self.font_size * 2.5
+        halign: root._halign
+
+    Label:
+        id: btmlbl
+        text: root._btmlbl
+        color: [0,0,0,0]
+        # bold: True
+        font_size: lblfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+<LabJBox@BoxLayout>:
+    lblfld: lblfld
+    lbl: lbl
+    txt: ""
+    _lbl: ""
+    halign: "left"
+    valign: "middle"
+    text: lblfld.text
+    orientation: "vertical"
+    size_hint_y: None
+    size_hint_x: 1
+    spacing: 3
+    # padding: 10,10
+    height: self.minimum_height
+    pos_hint: {"center_x": .5, "center_y": .5}
+
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        padding: 10,0
+        AlignedLabel:
+            id: lbl
+            text: root._lbl
+            color: 0,0,0,1
+            font_size: 16
+
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        padding: 10,10,10,20
+        canvas.before:
+            Color:
+                rgba: [.9,.9,.9,1]
+            Line:
+                width: 1
+                rounded_rectangle: self.x, self.y, self.width, self.height, 7
+
+        AlignedLabel:
+            id: lblfld
+            text: root.txt
+            font_size: 16
+            bold: False
+            halign: root.halign
+            # pos_hint: {"top": 1} if root.valign == "top" else {"center_y": .5}
+
+<ModuleSubCap@Label>:
+    text_size: self.size
+    font_size: 16
+    bold: True
+    halign: "left"
+    valign: "middle"
+    color: 0,0,0,1
+
+<PageToggler>:
+    background_color: [0,0,0,0]
+    background_normal: ""
+    background_down: ""
+    size_hint: None,None
+    # color: root.theme_cls.primary_color if self.state=="down" else 0,0,0,1
+    size: 40,40
+    group: "pages"
+    allow_no_selection: False
+
+<Panel>
+    size_hint_y: None
+    height: self.minimum_height
+
+    BoxLayout:
+        size_hint_x: 0.00001
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        size_hint_max_x: 1200
+        canvas.before:
+            Color:
+                rgba: 1,1,1,1
+            RoundedRectangle:
+                radius: [7,7,7,7]
+                size: self.size
+                pos: self.pos
+
+        BtnBox:
+            id: pnline
+            size_hint_y: None
+            height: 60
+            on_release:
+                root.open() \
+                if not content.children \
+                else root.close()
+
+            canvas.before:
+                Color:
+                    rgba: [0,0,0,0] if self.state == "normal" else root.theme_cls.primary_color
+                RoundedRectangle:
+                    radius:
+                        [7,7,7,7] if not root.is_open \
+                        else [7,7,0,0]
+                    pos: self.pos
+                    size: self.size
+
+                # Color:
+                #     rgba: [0,0,0,0] if not root.is_open or self.state == "down" else [.8,.8,.8,1]
+                #
+                # Line:
+                #     width: 1
+                #     points: self.x+20, self.y + 1, self.right-20, self.y + 1
+
+
+            MDIcon:
+                id: title_icon
+                size_hint: None, None
+                size: 72,48
+                font_size: 32
+                pos_hint: {"center_y": .5}
+                icon: root.icon
+                halign: "center"
+                valign: "middle"
+                theme_text_color: "Custom"
+                text_color:
+                    root.theme_cls.text_color \
+                    if pnline.state == "normal" \
+                    else root.theme_cls.opposite_text_color
+
+            Label:
+                id: title_lbl
+                text: root.title
+                size_hint_y: None
+                text_size: self.size
+                font_size: 25
+                bold: True
+                halign: "left"
+                valign: "middle"
+                height: 40
+                color:
+                    root.theme_cls.text_color \
+                    if pnline.state == "normal" \
+                    else root.theme_cls.opposite_text_color
+                pos_hint: {"center_y": .5}
+
+            MDIcon:
+                id: chevi
+                icon: "chevron-right"
+                size_hint: None,None
+                size: 48,48
+                pos_hint: {"center_y": .5}
+                halign: "center"
+                valign: "middle"
+                theme_text_color: "Custom"
+                text_color:
+                    root.theme_cls.text_color \
+                    if pnline.state == "normal" \
+                    else root.theme_cls.opposite_text_color
+
+        BoxLayout:
+            id: content
+            size_hint_y: None
+            height: self.minimum_height
+
+    BoxLayout:
+        size_hint_x: 0.00001
+
+<PlainLabel@Label>:
+    canvas.before:
+        Color:
+            rgba: [.9,.9,.9,.5]
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 7,7,7,7
+
+    font_size: 16
+    pos_hint: {"center_x": .5, "center_y": .5}
+    size_hint: 1, None
+    height: self.font_size * 2.5
+    halign: "center"
+
+<PlainSpin@FloatLayout>:
+    spnfld: spnfld
+    _bold: True
+    spncolor: [.9,.9,.9,1]
+    _starttext: "Yolo"
+    values: []
+    _halign: "center"
+    _font_size: 16
+    text: spnfld.text
+    size_hint_y: None
+    height: spnfld.height
+    spacing: 6,0
+    pos_hint: {"center_y": .5}
+
+    Spinner:
+        id: spnfld
+        text: root._starttext
+        canvas.before:
+            Color:
+                rgba: root.spncolor if self.state == "normal" else app.theme_cls.primary_color
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: 7,7,7,7
+
+        values: root.values
+        background_normal: ""
+        background_active: ""
+        background_disabled_normal: ""
+        background_color: 0,0,0,0
+        font_size: root._font_size
+        pos_hint: {"center_x": .5, "center_y": .5}
+        size_hint: 1, None
+        height: self.font_size * 2.5
+        halign: root._halign
+        option_cls: Factory.get("SpinButton")
+        text_autoupdate: True
+        markup: True
+        bold: root._bold
+
+    MDIconButton:
+        icon: "chevron-down"
+        disabled: True
+        pos_hint: {"right": 1, "center_y": .5}
+
+<PlainTxtFld>:
+    # canvas.before:
+    #     Color:
+    #         rgba: [1,1,1,1]
+    #     RoundedRectangle:
+    #         radius: 7,7,7,7
+    #         pos: self.pos
+    #         size: self.size
+    canvas.after:
+        Color:
+            rgba: [.6,.6,.6,1] if not self.focus else app.theme_cls.primary_color
+
+        Line:
+            width: 1 if not self.focus else 1.2
+            rounded_rectangle: self.x, self.y, self.width, self.height, 7
+
+    hint_text: root._hint_text if not self.focus else ""
+    hint_text_color: [.4,.4,.4,1]
+    font_size: 16
+    pos_hint: {"center_x": .5, "center_y": .5}
+    size_hint: 1, None
+    multiline: False
+    # width: 200
+    height: self.line_height * root._height_multi if self.multiline else self.font_size * 2.5
+    halign: root._halign
+    padding: [10, (self.height - self.line_height) / 2,10,0] if not self.multiline else [10, 10,10,10]
+    write_tab: False
+    # background_color: 0,0,0,0
+    background_normal: ""
+    background_active: ""
+    background_disabled_normal: ""
+
+<PopLabel>:
+    orientation: "vertical"
+    spacing: 7
+    size_hint: None, None
+    size: self.minimum_size
+
+    SelfLabel:
+        text: root.title
+        color: .4,.4,.4,1
+        font_size: 13
+        bold: True
+
+    SelfLabel:
+        text: root.value
+        font_size: 16
+        bold: False
+
+<ReactBox>:
+    txtfld: txtfld
+    lbl: lbl
+    _swi: None
+    text: txtfld.text
+    orientation: "vertical"
+    size_hint_y: None
+    size_hint_x: 1
+    size_hint_min_x: 200
+    height: self.minimum_height
+    spacing: 3
+    pos_hint: {"center_x": .5, "center_y": .5}
+    Label:
+        id: lbl
+        text: root._lbl
+        color: app.theme_cls.primary_color
+        bold: True
+        markup: True
+        font_size: txtfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+    TxtOpt:
+        id: txtfld
+        swi: root._swi
+        text: root.txt
+        hint_text: root._hint_text if not self.focus else ""
+
+
+    Label:
+        id: btmlbl
+        text: root._btmlbl
+        color: [0.5,0.5,0.5,1] if txtfld.focus or txtfld.text != "" else [0,0,0,0]
+        # bold: True
+        font_size: txtfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+<ReactantBtn>:
+    cols: 7
+    size_hint_y: None
+    height: 40
+    on_release: app.root.ids.reactants.fill_reactant(root.entry)
+
+    canvas.before:
+        Color:
+            rgba: root.bg_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    MDIconButton:
+        icon: "flask-outline"
+        disabled: True
+        pos_hint: {"center_y": .5}
+
+    Label:
+        id: reac
+        size_hint_min_x: 200
+        text: root.reactant
+        color: root.txt_color
+        text_size: self.size
+        halign: "left"
+        valign: "middle"
+        markup: True
+
+    Label:
+        text: root.molarmass
+        color: root.txt_color
+
+    Label:
+        text: root.tag
+        color: root.txt_color
+
+    Label:
+        text: root.tmelt
+        color: root.txt_color
+
+    Label:
+        text: root.tboil
+        color: root.txt_color
+
+    Label:
+        text: root.tdecomp
+        color: root.txt_color
+
+<SearchLabel1@Label>:
+    size_hint: None,None
+    size: self.texture_size
+    color: 0,0,0,1
+    # text_size: self.size
+    # halign: "left"
+    valign: "middle"
+    markup: True
+
+<SearchLabel2@Label>:
+    size_hint: 1,None
+    height: self.texture_size[1]
+    color: 0,0,0,1
+    text_size: self.size
+    halign: "left"
+    valign: "middle"
+    markup: True
+
+<SearchPopup>
+    size_hint: 0.8,0.8
+    size_hint_max_x: 1050
+    auto_dismiss: False
+
+    BoxLayout:
+        orientation: "vertical"
+    # FloatLayout:
+    #     id: floati
+        canvas.before:
+            Color:
+                rgba: [1,1,1,1]
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            # orientation: "vertical"
+            size_hint_y: None
+            height: 80
+            # pos: floati.pos
+
+            BoxLayout:
+                size_hint_y: None
+                height: 80
+
+                canvas.after:
+                    Color:
+                        rgba: [.9,.9,.9,1]
+                    Line:
+                        width: 6
+                        cap: "none"
+                        points: self.x, self.y, self.right, self.y
+
+                Label:
+                    text: root.sid + "   |   " + root.tag + "   |   " + root.trgt
+                    color: 0,0,0,1
+                    font_size: 25
+                    bold: True
+                    markup: True
+
+        ScrollView:
+            bar_width: 10
+            scroll_wheel_distance: 100
+            effect_cls: "ScrollEffect"
+            scroll_type: ["bars"]
+            bar_color: 0,0,0,0.7
+            bar_inactive_color: 0,0,0,0.3
+
+            canvas.before:
+                Color:
+                    rgba: [.9,.9,.9,1]
+                RoundedRectangle:
+                    radius: 0,0,7,7
+                    pos: self.pos
+                    size: self.size
+
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+
+                BoxLayout:
+                    size_hint_x: .0001
+
+                GridLayout:
+                    cols: 1
+                    size_hint: 1, None
+                    height: self.minimum_height
+                    size_hint_max_x: 1100
+                    padding: 20,0
+                    spacing: 5
+
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 40,40
+                        spacing: 10
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        SelfTitle:
+                            text: "Information"
+
+                        StackLayout:
+                            id: info
+                            size_hint: 1,None
+                            height: self.minimum_height
+                            spacing: 60,10
+                            padding: 60,0
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 40,40
+                        spacing: 10
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        SelfTitle:
+                            text: "Reaction"
+
+                        ScrollView:
+                            scroll_type: ['bars']
+                            do_scroll_x: True
+                            do_scroll_y: False
+                            bar_width: 10
+                            bar_color: [0/255,102/255,128/255,1]
+                            bar_inactive_color: [0/255,102/255,128/255,.5]
+                            size_hint_x: None if reaction.width < 800 else 1
+                            size_hint_y: None
+                            width: reaction.width
+                            height: 60
+                            pos_hint: {"center_x": .5, "center_y": .5}
+
+                            BoxLayout:
+                                id: reaction
+                                spacing: 20
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                size_hint_x: None
+                                width: self.minimum_width
+
+                                Label:
+                                    text: root.reactants
+                                    size_hint_x: None
+                                    width: self.texture_size[0]
+                                    markup: True
+
+                                ArrowWidget
+
+                                Label:
+                                    text: root.products
+                                    size_hint_x: None
+                                    width: self.texture_size[0]
+                                    markup: True
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 40,40
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        SelfTitle:
+                            text: "Sample Weigh-In"
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint: None,None
+                            size: self.minimum_size
+                            pos_hint: {"center_x": .5}
+
+                            Label:
+                                text: "[b]Net weight:[/b]   " + root.netweight + " mg"
+                                size_hint: None,None
+                                height: 40
+                                width: self.texture_size[0] + 40
+                                markup: True
+
+                            GridLayout:
+                                id: swi_grid
+                                size_hint: None,None
+                                row_default_height: 40
+                                size: self.minimum_size
+                                cols: 5
+                                # pos_hint: {"center_x": .5}
+                                spacing: 40,0
+                                canvas.before:
+                                    Color:
+                                        rgba: 0,0,0,0.4
+                                    Line:
+                                        width: .5
+                                        rounded_rectangle: self.x,self.y,self.width,self.height,20
+                                    Line:
+                                        width: .5
+                                        points: self.x, self.top - 40, self.right, self.top -40
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 40,40
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        SelfTitle:
+                            text: "Temperature Program"
+
+
+                        # BoxLayout:
+                        #     orientation: "vertical"
+                        #     size_hint: None,None
+                        #     size: self.minimum_size
+                        #     pos_hint: {"center_x": .5}
+
+                        StackLayout:
+                            id: method_grid
+                            size_hint: 1,None
+                            height: self.minimum_height
+                            spacing: 40,10
+                            padding: 60,0
+
+                            # GridLayout:
+                            #     id: method_grid
+                            #     size_hint: None,None
+                            #     # row_default_height: 40
+                            #     size: self.minimum_size
+                            #     cols: 6
+                            #     spacing: 40,10
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint: None,None
+                            size: self.minimum_size
+                            pos_hint: {"center_x": .5}
+
+                            GridLayout:
+                                id: tp_grid
+                                size_hint: None,None
+                                row_default_height: 40
+                                size: self.minimum_size
+                                cols: 5
+                                spacing: 40,0
+                                canvas.before:
+                                    Color:
+                                        rgba: 0,0,0,0.4
+                                    Line:
+                                        width: .5
+                                        rounded_rectangle: self.x,self.y,self.width,self.height,20
+                                    Line:
+                                        width: .5
+                                        points: self.x, self.top - 40, self.right, self.top -40
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: 40,0
+                            WrappedPopLabel:
+                                title: "Experimental Details"
+                                value: root.expdet
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 40,40
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        SelfTitle:
+                            text: "Analytics"
+
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: 40,0
+                            spacing: 20
+                            WrappedPopLabel:
+                                title: "Appearance"
+                                value: root.ap
+                            WrappedPopLabel:
+                                title: "Applied Methods"
+                                value: root.aplmet
+                            WrappedPopLabel:
+                                title: "Analytical Details"
+                                value: root.anadet
+
+                    # BoxLayout:
+                    #     orientation: "vertical"
+                    #     size_hint_y: None
+                    #     height: self.minimum_height
+                    #     padding: 40,40
+                    #     spacing: 20
+                    #     canvas.before:
+                    #         Color:
+                    #             rgba: 1,1,1,1
+                    #         RoundedRectangle:
+                    #             radius: 7,7,7,7
+                    #             pos: self.pos
+                    #             size: self.size
+                    #
+                    #     SelfTitle:
+                    #         text: "Appearance"
+                    #
+                    #
+                    #     BoxLayout:
+                    #         orientation: "vertical"
+                    #         size_hint_y: None
+                    #         height: self.minimum_height
+                    #         padding: 40,0
+                    #         spacing: 20
+                    #         WrappedLabel:
+                    #             text: root.ap
+
+
+
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 40,40
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        SelfTitle:
+                            text: "Product"
+
+                        GridLayout:
+                            id: product_grid
+                            cols: 2
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: 40,0
+                            spacing: 40,10
+
+
+
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 40,40
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        SelfTitle:
+                            text: "Conclusion"
+
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: 40,0
+                            spacing: 20
+                            WrappedLabel:
+                                text: root.concl
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 80
+
+                # spacer right
+                BoxLayout
+                    size_hint_x: .0001
+
+        FloatLayout:
+            size_hint_y: None
+            height: 0
+            BoxLayout:
+                id: boxi
+                spacing: 10
+                padding: 0,0,20,20
+                pos_hint: {"right": 0.98, "y": 0.1}
+                # right: floati.right - 10
+                # y: floati.y + 10
+                size_hint: None,None
+                size: self.minimum_size
+
+                MDRaisedButton:
+                    text: "Send to Editor"
+                    text_color: 1,1,1,1
+                    md_bg_color: root.theme_cls.primary_color
+                    on_release: root.dismiss(), root.editor.fill_modules(root.sid, "info","idea", "reaction", "swi", "method", "expdet", "tp", "ap", "ana","anadet", "prod", "res", op=root.op),root.editor.open_all_panels(), setattr(root.container.ids.screen_manager, "current", "editor")
+
+                MDRaisedButton:
+                    text: "Cancel"
+                    text_color: 1,1,1,1
+                    md_bg_color: root.theme_cls.primary_color
+                    on_release: root.dismiss()
+
+<SearchViewClass>:
+    size_hint_y: None
+    height: self.minimum_height
+    orientation: "vertical"
+    padding: "48dp",15,"48dp",15
+    spacing: 10
+    canvas:
+        Color:
+            rgba: root.bg if self.state == "normal" else [0.9,.9,0.9,1]
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        spacing: 20
+        # padding: 10,0,10,0
+        size_hint_y: None
+        height: self.minimum_height
+        # pos_hint: {"top": 1}
+
+        BoxLayout:
+            size_hint: None,None
+            size: 60,35
+            padding: 3
+            pos_hint: {"center_y": .5}
+            canvas.before:
+                Color:
+                    rgba: root.method_color
+                RoundedRectangle:
+                    size: self.size
+                    radius: 5,5,5,5
+                    pos: self.pos
+
+            Label:
+                text: root.method_abbrev
+                color: root.method_color_text
+                font_size: 15
+                # text_size: self.size
+                # halign: "center"
+                # valign: "middle"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                bold: True
+                markup: True
+
+        Label:
+            id: sidtag
+            text: root.sid + ",   " + root.tag + ",   " + root.trgt
+            font_size: 20
+            bold:True
+            size_hint: None, None
+            width: self.texture_size[0]
+            height: 50
+            markup: True
+            color: 0.4,0.4,0.4,1
+
+        Label
+
+        Label:
+            id: sidtag
+            text: root.op
+            font_size: 20
+            bold:True
+            size_hint: None, None
+            width: self.texture_size[0]
+            height: 50
+            markup: True
+            color: 0.4,0.4,0.4,1
+
+    Separator
+
+    GridLayout:
+        id: gl_res
+        cols: 2
+        spacing: 30, 5
+        padding: 20,10,20,0
+        size_hint_y: None
+        height: self.minimum_height
+
+
+<SelectButton>:
+    on_selected: setattr(self, "background_color", app.theme_cls.primary_color if self.selected else [0,0,0,0])
+    size_hint_y: None
+    background_down: ""
+    background_normal: ""
+    background_disabled_normal: ""
+    background_color: 0,0,0,0
+    color: [0,0,0,1]
+    text_size: self.width-40, None
+    height: (self.texture_size[1] + 20) if self.texture_size[1] > 40 else 40
+    halign: "center"
+
+<SelfLabel@Label>:
+    color: 0,0,0,1
+    size_hint: None, None
+    height: self.texture_size[1]
+    width: self.texture_size[0]
+    bold: True
+    pos_hint: {"center_y": .5}
+    markup: True
+
+<SelfTitle@Label>:
+    size_hint: None,None
+    size: self.texture_size
+    font_size: 20
+    bold: True
+
+<Separator@Widget>:
+    size_hint_y: None
+    thickness: 2
+    margin: 2
+    height: self.thickness + 2 * self.margin
+    color: [222/255,222/255,222/255,1]
+    canvas:
+        Color:
+            rgba: self.color
+        Rectangle:
+            pos: self.x + self.margin, self.y + self.margin + 1
+            size: self.width - 2 * self.margin , self.thickness
+
+<SpinButton@SelectButton>:
+    canvas.before:
+        Color:
+            rgba: 0.9,.9,.9,1
+        RoundedRectangle:
+            radius: 7,7,7,7
+            pos: self.pos
+            size: self.size
+
+<SpinBox>:
+    values: ["Hello","Yolo"]
+    spnfld: spnfld
+    lbl: lbl
+    method: spnfld.text
+    text: spnfld.text
+    orientation: "vertical"
+    size_hint_y: None
+    size_hint_x: 1
+    size_hint_min_x: spnfld.texture_size[0]+100
+    height: self.minimum_height
+    spacing: 3
+    pos_hint: {"center_x": .5, "center_y": .5}
+
+    Label:
+        id: lbl
+        text: root._lbl
+        color: app.theme_cls.primary_color
+        bold: True
+        font_size: spnfld.font_size * 0.95
+        markup: True
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+    FloatLayout:
+        size_hint_y: None
+        height: spnfld.height
+        spacing: 6,0
+        # canvas.before:
+        #     Color:
+        #         rgba: 1,0,0,1
+        #     RoundedRectangle:
+        #         pos: self.pos
+        #         size: self.size
+        #         radius: 7,7,7,7
+
+
+        DDSpinner:
+            id: spnfld
+            text: root.txt
+            # canvas.before:
+            #     Color:
+            #         rgba: [.9,.9,.9,1] if self.state == "normal" else app.theme_cls.primary_color
+            #     RoundedRectangle:
+            #         pos: self.pos
+            #         size: self.size
+            #         radius: 7,7,7,7
+            #
+            values: root.values
+            # background_normal: ""
+            # background_active: ""
+            # background_disabled_normal: ""
+            # background_color: 0,0,0,0
+            font_size: root._font_size
+            # pos_hint: {"center_x": .5, "center_y": .5}
+            # size_hint: 1, None
+            # # size_hint_min_x: self.texture_size[0] + 100
+            # height: self.font_size * 2.5
+            # option_cls: Factory.get("SpinClass")
+            # text_autoupdate: True
+            # markup: True
+            # bold: True
+
+        MDIconButton:
+            # canvas.before:
+            #     Color:
+            #         rgba: 1,0,0,1
+            #     RoundedRectangle:
+            #         pos: self.pos
+            #         size: self.size
+            #         radius: 7,7,7,7
+            icon: "chevron-down"
+            disabled: True
+            pos_hint: {"right": 1, "center_y": .5}
+            # text_color: 1,0,0,1
+
+
+
+    Label:
+        id: btmlbl
+        color: [0,0,0,0]
+        text: "yolo"
+        font_size: spnfld.font_size * 0.95
+        # bold: True
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+<SpinClass@SpinnerOption>:
+    canvas.before:
+        Color:
+            rgba: [.9,.9,.9,1] if self.state == "normal" else app.theme_cls.primary_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 7,7,7,7
+    background_normal: ""
+    background_down: ""
+    background_disabled_normal: ""
+    background_color: 0,0,0,0
+    size_hint_y: None
+    bold: True
+    markup: True
+    font_size: 16
+    height: self.font_size * 2.5
+    # size_hint_min_x: self.texture_size[0] + 100
+    color: 0,0,0,1
+
+<SWIGrid>:
+    cols: 7
+    padding: 52,0,2,0
+    spacing: 10, 10
+    size_hint_y: None
+    height: self.minimum_height
+    row_force_default: True
+    row_default_height: 40
+
+<SWILbl>:
+    size_hint: None,1
+    width: self.texture_size[0] + root.pad
+    markup: True
+
+<TextBox>:
+    txtfld: txtfld
+    lbl: lbl
+    # text: txtfld.text
+    orientation: "vertical"
+    size_hint_y: None
+    size_hint_x: 1
+    # size_hint_max_x: 200
+    # size_hint_min_x: 150
+    text: txtfld.text
+    height: self.minimum_height
+    spacing: 3
+    pos_hint: {"center_x": .5, "center_y": .5}
+    # canvas.before:
+        # Color:
+        #     rgba: 1,0,0,1
+        # Rectangle:
+        #     pos: self.pos
+        #     size: self.size
+    Label:
+        id: lbl
+        text: root._lbl
+        color: app.theme_cls.primary_color #if txtfld.focus or txtfld.text != "" else [0,0,0,0]
+        bold: True
+        markup: True
+        font_size: txtfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+    TextInput:
+        id: txtfld
+        text: root.txt
+        canvas.after:
+            Color:
+                rgba: [.6,.6,.6,1] if not self.focus else app.theme_cls.primary_color
+
+            Line:
+                width: 1 if not self.focus else 1.2
+                rounded_rectangle: self.x, self.y, self.width, self.height, 7
+
+        hint_text: root._hint_text if not self.focus else ""
+        hint_text_color: [.4,.4,.4,1]
+        font_size: root._font_size
+        pos_hint: {"center_x": .5, "center_y": .5}
+        size_hint: 1, None
+        multiline: root._multiline
+        # width: 200
+        height: self.line_height * root._height_multi if root._multiline else self.font_size * 2.5
+        halign: root._halign
+        padding: [10, (self.height - self.line_height) / 2,10,0] if not root._multiline else [10, 10,10,10]
+        write_tab: root._writetab
+        scroll_y: root._scroll_y
+        background_normal: ""
+        background_active: ""
+        background_disabled_normal: ""
+
+    Label:
+        id: btmlbl
+        text: root._btmlbl
+        color: [0.5,0.5,0.5,1] if txtfld.focus else [0,0,0,0]
+        # bold: True
+        font_size: txtfld.font_size * 0.95
+        size_hint: None,None
+        width: self.texture_size[0] + 20 if self.text != "" else 0
+        height: self.texture_size[1] if self.text != "" else 0
+
+<TextureLbl@Label>
+    min_height: 50
+    font_size: 16
+    color: 0,0,0,1
+    text_size: self.size
+    halign: "center"
+    valign: "middle"
+    size_hint_y: None
+    markup: True
+    height: self.texture_size[1] if self.texture_size[1] > self.min_height else self.min_height
+
+<TitleSpin>:
+    unit: unit
+    # canvas.before:
+    #     Color:
+    #         rgba: 1,0,0,1
+    #     Rectangle:
+    #         pos: self.pos
+    #         size: self.size
+
+    size_hint: 1, None
+    height: 40
+    BoxLayout:
+        size_hint: None,None
+        width: self.minimum_width
+        height: 50
+        spacing: 10
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        Label:
+            text: root.text
+            font_size: root.font_size
+            bold: True
+            markup: True
+            color: 0,0,0,1
+            size_hint: None, None
+            size: self.texture_size
+            pos_hint: {"center_y": .5}
+
+
+        UnitSpin:
+            id: unit
+            values: root.values
+
+<Toolicon@MDIconButton+MDTooltip>
+
+<UnitSpinOption@SpinnerOption>:
+    background_normal: "data/images/grey.png"
+    background_down: "data/images/blue.png"
+    size_hint_y: None
+    bold: True
+    markup: True
+    height: 30
+    color: 0,0,0,1
+
+<UnitSpin@Spinner>:
+    background_normal: "data/images/spinner_normal.png"
+    background_down: "data/images/spinner_down.png"
+    background_disabled_normal: "data/images/spinner_disabled.png"
+
+    option_cls: Factory.get("UnitSpinOption")
+
+    text_autoupdate: True
+    markup: True
+    bold: True
+    size_hint: None,None
+    height: 30
+    font_size: 14
+    width: 90
+    color: 0,0,0,1
+    pos_hint: {"center_y": 0.5}
+
+<UpButton>
+    icon: "chevron-up"
+    user_font_size: 20
+    size_hint: None,None
+    size: 30,20
+    pos_hint: {"center_y": .5, "center_x": .5}
+    on_release: app.root.editor.swi.move_row_up(self.box)
+
+<UserBtn>:
+    user: ""
+    size_hint_y: None
+    height: 40
+    padding: 15,8
+    spacing: 10
+    on_release: app.root.ids.user.fill_user(self.user)
+    # pos_hint: {"center_y": .5}
+    MDIconButton:
+        icon: "account-circle-outline"
+        pos_hint: {"center_y": .5}
+        disabled: True
+
+    Label:
+        text: root.user
+        color: 0,0,0,1
+        size_hint_x: None
+        width: self.texture_size[0]
+        bold: True
+        # text_size: self.size
+        # halign: "left"
+        # width: self.texture_size[0]
+
+<WrappedLabel@Label>:
+    size_hint: 1, None
+    text_size: self.width, None
+    height: self.texture_size[1]
+    markup: True
+
+<WrappedPopLabel>:
+    orientation: "vertical"
+    spacing: 7
+    size_hint: 1, None
+    height: self.minimum_height
+
+    SelfLabel:
+        text: root.title
+        color: .4,.4,.4,1
+        font_size: 13
+        bold: True
+
+    WrappedLabel:
+        text: root.value
+        font_size: 16

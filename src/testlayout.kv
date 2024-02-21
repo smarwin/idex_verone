@@ -1,0 +1,2215 @@
+#: import Window kivy.core.window
+#: import get_hex_from_color kivy.utils
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+
+<Analytics>
+    id: ana
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+    padding: 20,5,20,40
+    spacing: 20
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+            # on_release: root.open_datepicker()
+
+        ModuleSubCap:
+            text: "APPEARANCE"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("ap")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("ap")
+
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        padding: 52,0
+        TextBox:
+            id: ap
+            _hint_text: "How does your product look?"
+            _btmlbl: "e.g. Sombreros. Sombreros everywhere."
+            _multiline: True
+            _halign: "left"
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        ModuleSubCap:
+            text: "ANALYTICAL METHODS"
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("methods")
+
+    StackLayout:
+        id: ana_methods
+        orientation: "lr-tb"
+        size_hint: 1, None
+        height: self.minimum_height
+        padding: 52,0
+        spacing: 20, 10
+        pos_hint: {"center_x": .5}
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        ModuleSubCap:
+            text: "ANALYTICAL DETAILS"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("anadet")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("ana")
+
+
+    MDBoxLayout:
+        adaptive_height: True
+        padding: 52,0
+
+        TextBox:
+            id: anadet
+            # _lbl: "Analytical Details"
+            _hint_text: "What did you do?"
+            _btmlbl: "e.g. I switched off the computer of the XRD machine."
+            _multiline: True
+            _halign: "left"
+
+<Container>:
+    id: container
+    editor: editor
+    sm: screen_manager
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    NavigationLayout:
+        size_hint_y: None
+        height: root.height - toolbar.height
+        pos_hint: {"x": 0, "y": 0}
+
+
+        ScreenManager:
+            id: screen_manager
+            transition: NoTransition()
+
+            Editor:
+                name: "editor"
+                id: editor
+                container: container
+
+                # Editor:
+                #     id: editor
+                #     container: container
+
+            Reactants:
+                name: "reactants"
+                id: reactants
+                editor: editor
+                container: container
+
+                # Reactants:
+                #     id: reactants
+                #     editor: editor
+                #     container: container
+
+            # LabJournal:
+            #     name: "labjournal"
+            #     id: labjournal
+            #     editor: editor
+            #     container: container
+            #     # MDLabel:
+            #     #     text: "LabJournal\n under construction..."
+            #     #     font_size: 45
+            #     #     halign: "center"
+
+            Search:
+                name: "search"
+                id: search
+                container: container
+                editor: editor
+
+                # Search:
+                #     id: search
+                #     container: container
+                #     editor: editor
+
+            IDEXSettings:
+                name: "settings"
+                id: settings
+                container: container
+
+            User:
+                name: "user"
+                id: user
+                editor: editor
+                container: container
+                settings: settings
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+    FloatLayout:
+        size_hint_y: None
+        height: toolbar.height
+        pos_hint: {"top": 1}
+
+        MDToolbar:
+            id: toolbar
+            padding: 10,0
+            pos_hint: {"top": 1}
+            elevation: 10
+            # title: "IDEX"
+            # tooltip_text: "yolo"
+            left_action_items:
+                [["menu", lambda x: nav_drawer.set_state("open")],
+                ["file-edit-outline", lambda x: setattr(screen_manager, "current", "editor")],
+                ["flask-outline", lambda x: setattr(screen_manager, "current", "reactants")],
+                # ["book-open-variant", lambda x: setattr(screen_manager, "current", "labjournal")],
+                ["magnify", lambda x: setattr(screen_manager, "current", "search")]]
+            # right_action_items: [["file-edit-outline", lambda x: setattr(screen_manager, "current", "editor")],["flask-outline", lambda x: setattr(screen_manager, "current", "reactants")],["book-open-variant", lambda x: setattr(screen_manager, "current", "labjournal")],["magnify", lambda x: setattr(screen_manager, "current", "search")]]
+
+        BoxLayout:
+            size_hint: None,None
+            height: toolbar.height
+            width: self.minimum_width
+            pos_hint: {"right": 1, "top": 1}
+            padding: 0,0,"48dp",0
+
+            BoxLayout:
+                size_hint_x: None
+                width: self.minimum_width
+                padding: 20,0,0,0
+                # canvas.before:
+                #     Color:
+                #         rgba: [1,0,0,1]
+                #     Rectangle:
+                #         pos: self.pos
+                #         size: self.size
+
+                Toolicon:
+                    icon: "settings"
+                    tooltip_text: "Settings"
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.opposite_text_color
+                    pos_hint: {"center_y": .5}
+                    on_release: setattr(screen_manager, "current", "settings")
+                    # on_release: setattr(editor.ids.spinner, "active", False)
+
+                Toolicon:
+                    icon: "account-circle-outline"
+                    tooltip_text: "User"
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.opposite_text_color
+                    pos_hint: {"center_y": .5}
+                    # on_release: editor.test()
+                    on_release: setattr(screen_manager, "current", "user")
+
+                PlainSpin:
+                    id: op
+                    # spncolor: [0,0,0,0]
+                    # _bold: False
+                    # _font_size: 14
+                    _halign: "left"
+                    values: root.ops_list
+                    size_hint_x: None
+                    width: editor.ids.tools.width
+                    # width: self.ids.spnfld.texture_size[0] + 80
+                    on_text: editor.change_operator(self.text)
+
+<Editor>:
+    mainwindow: mainwindow
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            id: functionbar
+            size_hint_y: None
+            height: 60
+            padding: 0,0
+            # canvas.before:
+            #     Color:
+            #         rgba: .9,.9,.9,1
+            #     Rectangle:
+            #         pos: self.pos
+            #         size: self.size
+            BoxLayout:
+                size_hint_x: None
+                width: sidebar.width
+                padding: "48dp", 0, 0, 0
+
+                Label:
+                    text: "Editor"
+                    color: 0,0,0,1
+                    font_size: 25
+                    bold: True
+                    size_hint_x: None
+                    width: self.texture_size[0]
+
+            BoxLayout:
+                padding: 30,0, "48dp", 0
+
+                # FltBtn:
+                #     text: "Close all"
+                #     size_hint_y: None
+                #     height: 55
+                #     on_release: root.close_all_panels()
+                # FltBtn:
+                #     text: "Open all"
+                #     size_hint_y: None
+                #     height: 55
+                #     on_release: root.open_all_panels()
+
+                Label
+
+                BoxLayout:
+                    id: tools
+                    size_hint_x: None
+                    width: self.minimum_width
+                    Toolicon:
+                        icon: "file-outline"
+                        tooltip_text: "New Entry"
+                        pos_hint: {"center_y": .5}
+                        on_release: root.new_entry()
+
+
+                    Toolicon:
+                        icon: "content-save"
+                        tooltip_text: "Save Entry"
+                        pos_hint: {"center_y": .5}
+                        on_release: root.check_for_file("save")
+                        # on_release: root.open_and_delay("check_for_file", "save")
+
+
+                    Toolicon:
+                        icon: "delete"
+                        tooltip_text: "Delete Entry"
+                        pos_hint: {"center_y": .5}
+                        on_release: root.check_for_file("delete")
+                        # on_release: root.open_and_delay("check_for_file", "delete")
+
+                    Toolicon:
+                        icon: "file-pdf-outline"
+                        tooltip_text: "Create PDF"
+                        pos_hint: {"center_y": .5}
+                        on_release: root.check_for_file("createpdf")
+                        # on_release: root.open_and_delay("check_for_file", "createpdf")
+
+                    Toolicon:
+                        icon: "file-eye-outline"
+                        tooltip_text: "View PDF"
+                        pos_hint: {"center_y": .5}
+                        on_release: root.view_pdf()
+
+
+
+        BoxLayout:
+            BoxLayout:
+                padding: 20,0,0,20
+                size_hint_x: None
+                width: self.minimum_width
+                BoxLayout:
+                    id: sidebar
+                    orientation: "vertical"
+                    size_hint_x: None
+                    width: 300
+                    padding: 0,15,0,0
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            radius: 7,7,7,7
+                            pos: self.pos
+                            size: self.size
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 15,0,15,0
+                        spacing: 10
+                        Label:
+                            text: "Experiments by"
+                            bold: True
+                            color: 0,0,0,1
+                            font_size: 20
+                            size_hint: None, None
+                            valign: "top"
+                            size: self.texture_size[0] + 16, self.texture_size[1]
+
+                        PlainSpin:
+                            id: exp_op
+                            # spncolor: [1,1,1,1]
+                            # _bold: False
+                            _font_size: 14
+                            values: root.ops_list
+                            on_text: root.sample_btns()
+
+                        TextBox:
+                            id: filter
+                            _hint_text: "Filter"
+                            _btmlbl: "e.g. MD001 SLA"
+                            _font_size: 16
+                            _halign: "left"
+                            on_text: root.sample_btns()
+
+
+                    RecycleView:
+                        id: rv_btns
+                        data: root.samplelist
+                        viewclass: "ExpBtn"
+                        bar_width: 0
+                        scroll_wheel_distance: 100
+                        effect_cls: "ScrollEffect"
+                        RecycleGridLayout:
+                            id: samples
+                            cols: 1
+                            default_size: None, dp(50)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+
+            FloatLayout:
+                id: mainwindow
+                padding: 15,15,15,0
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 20,0,20,0
+                    pos_hint: {"top": 1, "right": 1}
+                    BoxLayout:
+                        id: title
+                        size_hint_y: None
+                        height: 120
+                        padding: 40,0,40,0
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.x, self.y + 20
+                                size: self.width, 100
+                            # Color:
+                            #     rgba: .9,.9,.9,1
+                            # Line:
+                            #     width: 5
+                            #     points: self.x, self.y, self.right, self.y
+
+                        AlignedLabel:
+                            pos_hint: {"center_y": .6}
+                            text: root.title
+                            # bold: True
+                            font_size: 30
+                            # markup: True
+
+                        AnaChip:
+                            id: complete
+                            label: "Incomplete" if not self.status else "Complete"
+                            pos_hint: {"center_y": .6}
+                            active_color: root.theme_cls.primary_color
+                            inactive_color: [181/255,0/255,16/255,1]
+                            active_textcolor: 1,1,1,1
+                            inactive_textcolor: 1,1,1,1
+
+
+
+
+
+                ScrollView:
+                    id: editor_sv
+                    bar_width: 10
+                    scroll_wheel_distance: 100
+                    effect_cls: "ScrollEffect"
+                    scroll_type: ["bars"]
+                    bar_color: 0,0,0,0.7
+                    bar_inactive_color: 0,0,0,0.3
+                    size_hint_y: None
+                    height: mainwindow.height - title.height
+                    pos_hint: {"bottom": 1, "right": 1}
+                    # canvas.before:
+                    #     Color:
+                    #         rgba: [.9,.9,.9,1]
+                    #     Rectangle:
+                    #         pos: self.pos
+                    #         size: self.size
+
+                    # BoxLayout:
+                    #     size_hint_y: None
+                    #     height: self.minimum_height
+                    #
+                    #     BoxLayout:
+                    #         size_hint_x: 0.001
+                    #         size_hint_y: None
+                    #         height: modules.height
+
+
+                    MDGridLayout:
+                        id: modules
+                        cols: 1
+                        spacing: 40
+                        padding: 20,0,20,40
+                        adaptive_height: True
+                        # size_hint_max_x: 1200
+
+
+                        # BoxLayout:
+                        #     size_hint_x: 0.001
+                        #     size_hint_y: None
+                        #     height: modules.height
+
+<IDEXSettings>:
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            id: functionbar
+            size_hint_y: None
+            height: 60
+            padding: 30,0, "48dp", 0
+            canvas.before:
+                Color:
+                    rgba: .9,.9,.9,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: "Settings"
+                color: 0,0,0,1
+                font_size: 25
+                bold: True
+                size_hint_x: None
+                width: self.texture_size[0]
+
+            Label
+
+            Toolicon:
+                icon: "content-save"
+                tooltip_text: "Save settings"
+                pos_hint: {"center_y": .5}
+                on_release: root.check()
+
+        GridLayout:
+            id: mainwindow
+            cols: 3
+            # padding: 150,50,150,0
+            # orientation: "vertical"
+
+            BoxLayout:
+
+            BoxLayout:
+                size_hint_x: None
+                width: 1000
+
+                GridLayout:
+                    id: info
+                    cols: 3
+                    spacing: 30, 15
+                    padding: 30,30,30,150
+                    size_hint_y: None
+                    height: self.minimum_height
+                    pos_hint: {"top": 1}
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            radius: 7,7,7,7
+                            pos: self.pos
+                            size: self.size
+
+                    Label:
+                        color: 0,0,0,1
+                        text: "HOME:"
+                        size_hint_x: None
+                        width: self.texture_size[0]
+                        bold: True
+
+                    PlainTxtFld:
+                        id: home
+                        hint_text: r"e.g. C:\Users\Marwin\IDEX\YOURFOLDER  or  ../YOURFOLDER"
+                        halign: "left"
+                        on_text_validate: root.check()
+
+                    Toolicon:
+                        icon: "help-circle-outline"
+                        tooltip_text: "Help"
+                        pos_hint: {"center_y": .5}
+                        on_release: root.help("home")
+
+                    Label:
+                        color: 0,0,0,1
+                        text: "STD USER:"
+                        size_hint_x: None
+                        width: self.texture_size[0]
+                        bold: True
+
+                    PlainSpin:
+                        id: stdop
+                        values: root.ops_list
+                        size_hint_x: None
+                        width: 250
+
+                    Toolicon:
+                        icon: "help-circle-outline"
+                        tooltip_text: "Help"
+                        pos_hint: {"center_y": .5}
+                        on_release: root.help("stdop")
+
+            BoxLayout:
+
+<Information>
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+    padding: 20,5,20,40
+    spacing: 20
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                # rgba: root.theme_cls.primary_light
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+            # on_release: root.open_datepicker()
+
+        ModuleSubCap:
+            text: "INFO"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: root.editor.open_import("info")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("info")
+
+    BoxLayout:
+        id: info_tags
+        orientation: "vertical"
+        padding: 52,0
+        size_hint: 1,None
+        height: self.minimum_height
+        spacing: 5
+
+        BoxLayout:
+            size_hint: 1,None
+            height: self.minimum_height
+            spacing: 20
+
+            TextBox:
+                id: sid
+                _lbl: "SAMPLE ID"
+                _hint_text: "e.g. MD001"
+                _btmlbl: "e.g. MD001"
+                on_text: root.editor.change_title()
+
+            TextBox:
+                id: tag
+                _lbl: "TAG"
+                _hint_text: "e.g. Sr-258"
+                _btmlbl: "e.g. Sr-258"
+                on_text: root.editor.change_title()
+
+            TextBox:
+                id: lj
+                _lbl: "LABJOURNAL"
+                _hint_text: "e.g. MDLJ IV"
+                _btmlbl: "e.g. MDLJ IV"
+
+            TextBox:
+                id: date
+                _lbl: "DATE"
+                _hint_text: "Pick a date"
+                _btmlbl: "Pick a date"
+
+
+        TextBox:
+            id: trgt
+            _lbl: "TARGET"
+            _hint_text: "e.g. Sr2Si5N8:Eu+2"
+            _btmlbl: "e.g. Sr2Si5N8:Eu+2"
+            on_text: root.editor.change_title()
+
+
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                # rgba: root.theme_cls.primary_light
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        ModuleSubCap:
+            text: "IDEA"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: root.editor.open_import("idea")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("idea")
+
+
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        padding: 52,0
+        TextBox:
+            id: idea
+            # _lbl: "IDEA"
+            _hint_text: "What is your idea?"
+            _btmlbl: "e.g. I want to catch all Pokemon"
+            _multiline: True
+            _halign: "left"
+            _scroll_y: 20
+
+<LabJournal>:
+    canvas.before:
+        Color:
+            rgba: .9,.9,.9,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        padding: "48dp",0, "48dp", 20
+        orientation: "vertical"
+
+        BoxLayout:
+            id: functionbar
+            size_hint_y: None
+            height: 60
+            padding: 0,0
+
+            BoxLayout:
+
+                Label:
+                    text: "LabJournal"
+                    color: 0,0,0,1
+                    font_size: 25
+                    bold: True
+                    size_hint_x: None
+                    width: self.texture_size[0]
+
+                Label
+
+                Toolicon:
+                    icon: "import"
+                    tooltip_text: "Send to Editor"
+                    pos_hint: {"center_y": .5}
+                    on_release: root.reset()
+
+        BoxLayout:
+            spacing: 10
+            BoxLayout:
+                id: expbox
+                orientation: "vertical"
+                size_hint_min_x: 700
+                padding: 24,24
+
+                canvas.before:
+                    Color:
+                        rgba: 1,1,1,1
+                    RoundedRectangle:
+                        radius: 7,7,7,7
+                        pos: self.pos
+                        size: self.size
+
+                BoxLayout:
+                    id: headline
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 20,0,20,10
+                    spacing: 20
+                    canvas.before:
+                        Color:
+                            rgba: .9,.9,.9,1
+                        Line:
+                            width: 1
+                            points: self.x, self.y, self.right, self.y
+
+                    AlignedLabel:
+                        id: stt
+                        text: "SAMPLE ID | TAG | TARGET"
+                        halign: "left"
+                        valign: "bottom"
+                        font_size: 25
+
+                    Label:
+                        text: "01.10.2020"
+                        size_hint: None, None
+                        width: self.texture_size[0]
+                        height: stt.height
+                        font_size: 20
+                        # bold: False
+
+                ScrollView:
+                    bar_width: 10
+                    scroll_wheel_distance: 100
+                    effect_cls: "ScrollEffect"
+                    scroll_type: ["bars"]
+                    bar_color: 0,0,0,0.7
+                    bar_inactive_color: 0,0,0,0.3
+
+                    BoxLayout:
+                        id: content
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: "vertical"
+                        spacing: 40
+                        padding: 20,20
+                        # BoxLayout:
+                        #     id: ideabox
+                        LabJBox:
+                            _lbl: "IDEA:"
+                            txt: "This is my idea of how to make the LabJournal appear. And it should have a lot of text for showing off purposes! Even more text? EVEN MORE???? Yes. Yes, indeed."
+                            valign: "top"
+
+                        LabJBox:
+                            _lbl: "REACTION:"
+                            txt: "H2 + O2 --> H2O"
+                            halign: "center"
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+                            BoxLayout:
+                                padding: 10,0
+                                size_hint_y: None
+                                height: 40
+                                AlignedLabel:
+                                    text: "SAMPLE WEIGH-IN:"
+
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint: 1,None
+                                height: self.minimum_height
+                                pos_hint: {"center_x": .5}
+
+                                BoxLayout:
+                                    size_hint: 1,None
+                                    height: self.minimum_height
+                                    padding: 10,0
+                                    AlignedLabel_2:
+                                        text: "[b]Net weight:[/b]   " + "100" + " mg"
+                                        height: 40
+                                        markup: True
+                                        halign: "right"
+                                        valign: "middle"
+                                        bold: False
+
+                                GridLayout:
+                                    id: swi_grid
+                                    size_hint: 1,None
+                                    # row_default_height: 40
+                                    height: self.minimum_height
+                                    cols: 5
+                                    # pos_hint: {"center_x": .5}
+                                    padding: 10,0
+                                    spacing: 10,0
+                                    canvas.before:
+                                        Color:
+                                            rgba: .9,.9,.9,1
+                                        Line:
+                                            width: 1
+                                            rounded_rectangle: self.x,self.y,self.width,self.height,7
+                                        Line:
+                                            width: .5
+                                            points: self.x, self.top - 40, self.right, self.top -40
+
+                                    AlignedLabel_2:
+                                        text: "Reactants"
+                                        halign: "center"
+                                        height: 40
+                                        valign: "center"
+                                    AlignedLabel_2:
+                                        text: "Eq"
+                                        halign: "center"
+                                        valign: "center"
+                                        height: 40
+                                        size_hint_x: 0.6
+                                    AlignedLabel_2:
+                                        text: "M / gmol"
+                                        halign: "center"
+                                        height: 40
+                                    AlignedLabel_2:
+                                        text: "n / mol"
+                                        halign: "center"
+                                        height: 40
+                                    AlignedLabel_2:
+                                        text: "m / mg"
+                                        halign: "center"
+                                        height: 40
+
+                                    AlignedLabel:
+                                        text: "AlNHIACHGALAKSFHDKS"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                    AlignedLabel_2:
+                                        text: "1"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                        size_hint_x: 0.6
+                                    AlignedLabel_2:
+                                        text: "60.32"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                    AlignedLabel_2:
+                                        text: "0.0411"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                    AlignedLabel_2:
+                                        text: "0.3125"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+
+                                    AlignedLabel_2:
+                                        text: "Li3N"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                    AlignedLabel_2:
+                                        text: "3"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                        size_hint_x: 0.6
+                                    AlignedLabel_2:
+                                        text: "31.74"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                    AlignedLabel_2:
+                                        text: "0.2465"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+                                    AlignedLabel_2:
+                                        text: "0.2145"
+                                        halign: "center"
+                                        height: 40
+                                        bold: False
+
+
+
+
+
+            BoxLayout:
+                id: anabox
+                canvas.before:
+                    Color:
+                        rgba: 1,1,1,1
+                    RoundedRectangle:
+                        radius: 7,7,7,7
+                        pos: self.pos
+                        size: self.size
+
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 24,0,24,24
+                    AlignedLabel:
+                        text: "by Marwin Dialer (MD)"
+                        halign: "right"
+
+<Reactants>:
+    filter: filter
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            id: functionbar
+            size_hint_y: None
+            height: 60
+            padding: 0,0
+
+            BoxLayout:
+                padding: "48dp",0, "48dp", 0
+
+                Label:
+                    text: "Reactants"
+                    color: 0,0,0,1
+                    font_size: 25
+                    bold: True
+                    size_hint_x: None
+                    width: self.texture_size[0]
+
+                Label
+
+                Toolicon:
+                    icon: "flask-empty-outline"
+                    tooltip_text: "Reset Reactant"
+                    pos_hint: {"center_y": .5}
+                    on_release: root.reset()
+
+
+                Toolicon:
+                    icon: "flask-plus-outline"
+                    tooltip_text: "Add/Edit Reactant"
+                    pos_hint: {"center_y": .5}
+                    on_release: root.check("save")
+
+                Toolicon:
+                    icon: "flask-minus-outline"
+                    tooltip_text: "Delete Reactant"
+                    pos_hint: {"center_y": .5}
+                    on_release: root.check("delete")
+
+        BoxLayout:
+
+            BoxLayout:
+                size_hint_x: .001
+
+            GridLayout:
+                id: mainwindow
+                cols: 1
+                spacing: 15
+                pos_hint: {"center_x": .5}
+                size_hint_max_x: 1500
+                padding: 20,0,20,20
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "48dp",20,"48dp",20
+                    spacing: 15
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            radius: 7,7,7,7
+                            pos: self.pos
+                            size: self.size
+                    TextBox:
+                        id: reac
+                        _lbl: "Formula"
+                        _hint_text: "e.g. Al2O3"
+                        _btmlbl: "e.g. Al2O3"
+                        size_hint_min_x: 230
+
+                    TextBox:
+                        id: molarmass
+                        _lbl: "M / g·mol[sup][size=10sp]-1[/size][/sup]"
+                        _hint_text: "e.g. 101.9601"
+                        _btmlbl: "e.g. 101.9601"
+
+                    TextBox:
+                        id: tag
+                        _lbl: "Tag"
+                        _hint_text: "e.g. MD001"
+                        _btmlbl: "e.g. MD001"
+
+                    TextBox:
+                        id: tmelt
+                        _lbl: "T[sub][size=13sp]melt[/size][/sub] / °C"
+                        _hint_text: "e.g. 2072 "
+                        _btmlbl: "e.g. 2072 "
+
+                    TextBox:
+                        id: tboil
+                        _lbl: "T[sub][size=13sp]boil[/size][/sub] / °C"
+                        _hint_text: "e.g. 2977"
+                        _btmlbl: "e.g. 2977"
+
+                    TextBox:
+                        id: tdecomp
+                        _lbl: "T[sub][size=13sp]decomp[/size][/sub] / °C"
+                        _hint_text: "e.g. none"
+                        _btmlbl: "e.g. none"
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "48dp",20,"48dp",20
+                    spacing: 15
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            radius: 7,7,7,7
+                            pos: self.pos
+                            size: self.size
+                    MDTextField:
+                        id: filter
+                        hint_text: ""
+                        font_size: 20
+                        on_text: root.update_list()
+                        write_tab: False
+                        icon_right: "magnify"
+                        icon_right_color: app.theme_cls.primary_color
+
+                BoxLayout:
+                    # size_hint_y: None
+                    # height: self.minimum_height
+                    orientation: "vertical"
+                    padding: "48dp",20,"48dp",20
+                    spacing: 15
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            radius: 7,7,7,7
+                            pos: self.pos
+                            size: self.size
+
+                    GridLayout:
+                        cols: 7
+                        size_hint_y: None
+                        height: 50
+                        canvas.before:
+                            Color:
+                                rgba: .9,.9,.9,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        MDIconButton:
+                            icon: "flask-outline"
+                            disabled: True
+                            text_color: .9,.9,.9,1
+                            pos_hint: {"center_y": .5}
+
+                        Label:
+                            size_hint_min_x: 200
+                            text: "Formula"
+                            color: 0,0,0,1
+                            text_size: self.size
+                            halign: "left"
+                            valign: "middle"
+                            bold: True
+
+                        Label:
+                            text: "M / g·mol[sup][size=10sp]-1[/size][/sup]"
+                            color: 0,0,0,1
+                            bold: True
+                            markup: True
+
+                        Label:
+                            text: "Tag"
+                            color: 0,0,0,1
+                            bold: True
+                            markup: True
+
+                        Label:
+                            text: "T[sub][size=13sp]melt[/size][/sub] / °C"
+                            color: 0,0,0,1
+                            bold: True
+                            markup: True
+
+                        Label:
+                            text: "T[sub][size=13sp]boil[/size][/sub] / °C"
+                            color: 0,0,0,1
+                            bold: True
+                            markup: True
+
+                        Label:
+                            text: "T[sub][size=13sp]decomp[/size][/sub] / °C"
+                            color: 0,0,0,1
+                            bold: True
+                            markup: True
+
+                # BoxLayout:
+                #     # size_hint_y: None
+                #     # height: self.minimum_height
+                #     padding: "48dp",20,"48dp",20
+                #     spacing: 15
+                #     canvas.before:
+                #         Color:
+                #             rgba: 1,1,1,1
+                #         RoundedRectangle:
+                #             radius: 7,7,7,7
+                #             pos: self.pos
+                #             size: self.size
+                    RecycleView:
+                        id: rv_btns
+                        data: root.rv_reaclist
+                        viewclass: "ReactantBtn"
+                        bar_width: 0
+                        scroll_wheel_distance: 100
+                        effect_cls: "ScrollEffect"
+                        RecycleGridLayout:
+                            id: reactants
+                            cols: 1
+                            default_size: None, dp(50)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+
+            BoxLayout:
+                size_hint_x: .001
+
+<Reaction>
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+    padding: 20,5,20,40
+    spacing: 20
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                # rgba: root.theme_cls.primary_light
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+
+        ModuleSubCap:
+
+        Toolicon:
+            icon: "calculator"
+            tooltip_text: "Balance"
+            pos_hint: {"center_y": .5}
+            on_release: root.balance_reaction()
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("reaction")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset()
+
+    BoxLayout:
+        id: input
+        padding: 52,0
+        size_hint: 1,None
+        height: self.minimum_height
+        spacing: 20
+
+        TextBox:
+            id: reactants
+            _lbl: "Reactants"
+            _hint_text: "Separate reactants by ' + '"
+            _btmlbl: "e.g. Sr2N + Al + NH4N3"
+
+        ArrowWidget
+
+        TextBox:
+            id: products
+            _lbl: "Products"
+            _hint_text: "Separate products by ' + '"
+            _btmlbl: "e.g. Sr3AlN3 + H2"
+
+    BoxLayout:
+        id: output
+        padding: 52,0
+        size_hint: 1,None
+        height: self.minimum_height
+        spacing: 20
+
+        TextureLbl:
+            id: output_reactants
+            text: root.r
+
+        ArrowWidget
+
+
+        TextureLbl:
+            id: output_products
+            text: root.p
+
+    # BoxLayout:
+    #     padding: 52,0
+    #     size_hint: 1,None
+    #     height: self.minimum_height
+    #
+    #     TextureLbl:
+    #         id: error_lbl
+    #         text: root.error
+    #         font_size: 14
+    #         color: [181/255,0/255,16/255,1]
+
+<Result>
+    id: res
+    product_grid: product_grid
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+    padding: 20,5,20,40
+    spacing: 20
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+            # on_release: root.open_datepicker()
+
+        ModuleSubCap:
+            text: "PRODUCTS"
+
+        Toolicon:
+            icon: "plus"
+            tooltip_text: "Add product"
+            pos_hint: {"center_y": .5}
+            on_release: root.add_product_row()
+
+        Toolicon:
+            icon: "minus"
+            tooltip_text: "Remove product"
+            pos_hint: {"center_y": .5}
+            on_release: root.del_product_row()
+
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("prod")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("product")
+
+
+    MDGridLayout:
+        id: product_grid
+        cols: 2
+        padding: 52,0
+        adaptive_height: True
+        spacing: 10
+
+        TextBox:
+            id: identifier
+            _lbl: "Identifier"
+            _hint_text: "e.g. washed with H2O or MD001a"
+            size_hint_x: 0.4
+
+        TextBox:
+            id: product
+            _lbl: "Product"
+            _hint_text: "e.g. AlN + AlN + AlN"
+            size_hint_x: 1
+
+
+
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+            # on_release: root.open_datepicker()
+
+        ModuleSubCap:
+            text: "CONCLUSION"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("res")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("conclusion")
+
+
+    MDBoxLayout:
+        adaptive_height: True
+        padding: 52,0
+
+        TextBox:
+            id: conclusion
+            # _lbl: "Conclusion"
+            _hint_text: "What is your resume?"
+            _btmlbl: "e.g. Nothing makes sense. Except Leberwurst."
+            _multiline: True
+            _halign: "left"
+
+<SampleWeighin>:
+    id: swi
+    swi_grid: swi_grid
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+    padding: 20,5,20,40
+    spacing: 20
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                # rgba: root.theme_cls.primary_light
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+
+        ModuleSubCap:
+            text: "WEIGH-IN"
+
+        Toolicon:
+            icon: "plus"
+            tooltip_text: "Add reactant"
+            pos_hint: {"center_y": .5}
+            on_release: root.add_swi_row()
+
+        Toolicon:
+            icon: "minus"
+            tooltip_text: "Remove reactant"
+            pos_hint: {"center_y": .5}
+            on_release: root.del_swi_row()
+
+        Toolicon:
+            icon: "calculator"
+            tooltip_text: "Calculate weigh-in"
+            pos_hint: {"center_y": .5}
+            on_release: root.calc_swi()
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release:app.root.editor.open_import("swi")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("weighin")
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: self.minimum_height
+        # spacing: 10
+
+
+        MDGridLayout:
+            id: ntwght_grid
+            cols: 6
+            padding: 52,0
+            adaptive_height: True
+            spacing: 10, 10
+
+            # First Row
+            Label:
+                size_hint: None,None
+                size: 45,40
+
+            Label
+            Label
+            Label
+            Label
+            TextBox:
+                id: netweight
+                _lbl: "Net weight / mg"
+                _hint_text: "e.g. 100"
+
+        MDGridLayout:
+            id: title_grid
+            cols: 6
+            padding: 52,10,52,3
+            adaptive_height: True
+            spacing: 10, 10
+
+            Label:
+                size_hint: None,None
+                size: 45,40
+
+            AlignedLabel:
+                text: "   Reactant"
+                font_size: 15.2
+                color: root.theme_cls.primary_color
+            AlignedLabel:
+                text: "   Eq"
+                font_size: 15.2
+                color: root.theme_cls.primary_color
+            AlignedLabel:
+                text: "   M / g·mol[sup][size=10sp]-1[/size][/sup]"
+                font_size: 15.2
+                color: root.theme_cls.primary_color
+            AlignedLabel:
+                text: "   n / mmol"
+                font_size: 15.2
+                color: root.theme_cls.primary_color
+            AlignedLabel:
+                text: "   m / mg"
+                font_size: 15.2
+                color: root.theme_cls.primary_color
+
+        MDGridLayout:
+            id: swi_grid
+            cols: 1
+            # padding: 52,0
+            adaptive_height: True
+            spacing: 10, 10
+
+
+            # ReactBox:
+            #     id: reac
+            #     _swi: swi
+            #     _lbl: "Reactant"
+            #     _hint_text: "e.g. Sr2N"
+            #     # _btmlbl: "e.g. Sr2N"
+            #
+            # TextBox:
+            #     id: eq
+            #     _lbl: "Eq"
+            #     _hint_text: "e.g. 1.0"
+            #
+            # TextBox:
+            #     id: molarmass
+            #     _lbl: "M / g·mol[sup][size=10sp]-1[/size][/sup]"
+            #     _hint_text: "e.g. 189.25"
+            #
+            # LabelBox:
+            #     id: mol
+            #     _lbl: "n / mmol"
+            #
+            # LabelBox:
+            #     id: mass
+            #     _lbl: "m / mg"
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                # rgba: root.theme_cls.primary_light
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        ModuleSubCap:
+            text: "ADDITIVES"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release:app.root.editor.open_import("additives")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("additives")
+
+    MDBoxLayout:
+        adaptive_height: True
+        padding: 52,0
+
+        TextBox:
+            id: additives
+            # _lbl: "Experimental Details"
+            _hint_text: "What did you add? Flux? Dopant?"
+            _btmlbl: "e.g. NH4F always works wonders."
+            _multiline: True
+            _halign: "left"
+
+<Search>:
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            id: functionbar
+            size_hint_y: None
+            height: 60
+            padding: "48dp",0, "48dp", 0
+
+            Label:
+                text: "Search"
+                color: 0,0,0,1
+                font_size: 25
+                bold: True
+                size_hint_x: None
+                width: self.texture_size[0]
+
+            Label
+
+            Toolicon:
+                icon: "magnify"
+                tooltip_text: "Search"
+                pos_hint: {"center_y": .5}
+                on_release: root.search_module(filter.text)
+
+            Toolicon:
+                icon: "refresh"
+                tooltip_text: "Reset"
+                pos_hint: {"center_y": .5}
+                on_release: root.reset()
+
+        BoxLayout:
+            padding: 20,0,20,20
+
+            BoxLayout:
+                size_hint_x: .001
+
+            BoxLayout:
+                orientation: "vertical"
+                # padding: "48dp",40,"48dp",0
+                # size_hint_x: None
+                # width: 1200 - dp(96)
+                # pos_hint: {"center_x": .5}
+                size_hint_max_x: 1500
+                spacing: 15
+                # canvas.before:
+                #     Color:
+                #         rgba: 1,1,1,1
+                #     RoundedRectangle:
+                #         radius: 7,7,7,7
+                #         pos: self.pos
+                #         size: self.size
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "48dp",20,"48dp",20
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            radius: 7,7,7,7
+                            pos: self.pos
+                            size: self.size
+
+                    MDTextField:
+                        id: filter
+                        hint_text: ""
+                        font_size: 20
+                        on_text_validate: root.search_module(self.text)
+                        text_validate_unfocus: False
+                        write_tab: False
+                        icon_right: "magnify"
+                        icon_right_color: app.theme_cls.primary_color
+
+                BoxLayout:
+                    orientation: "vertical"
+                    padding: "48dp",20,"48dp",20
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            radius: 7,7,7,7
+                            pos: self.pos
+                            size: self.size
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 50
+                        padding: "48dp",20
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: .9,.9,.9,1
+                            RoundedRectangle:
+                                radius: 7,7,7,7
+                                pos: self.pos
+                                size: self.size
+
+                        Label:
+                            text: root.numres + "  Results" if root.numres else "Results"
+                            color: 0,0,0,1
+                            font_size: 20
+                            bold: True
+                            size_hint_x: None
+                            width: self.texture_size[0]
+
+                        Label
+
+                        Label:
+                            text: "Pages:" if pagebtns.children else ""
+                            size_hint: None, None
+                            size: self.texture_size[0], 40
+                            color: 0,0,0,1
+                            bold: True
+                            pos_hint: {"center_y": .5}
+
+                        BoxLayout:
+                            id: pagebtns
+                            size_hint: None, None
+                            size: self.minimum_size
+                            pos_hint: {"center_y": .5}
+
+
+
+                    ScrollView:
+                        id: sv_search
+                        bar_width: 10
+                        scroll_wheel_distance: 100
+                        effect_cls: "ScrollEffect"
+                        scroll_type: ["bars"]
+                        bar_color: 0,0,0,0.7
+                        bar_inactive_color: 0,0,0,0.3
+
+                        GridLayout:
+                            id: gl_search
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: 0,20,0,40
+                            cols: 1
+
+            BoxLayout:
+                size_hint_x: .001
+
+        # FloatLayout:
+        #     size_hint_y: None
+        #     height: pagebtns.height
+        #     pos_hint: {"bottom": 1}
+        #     # canvas.before:
+        #     #     Color:
+        #     #         rgba: .9,.9,.9,1
+        #     #     Rectangle:
+        #     #         pos: self.pos
+        #     #         size: self.size
+        #
+        #     BoxLayout:
+        #         id: pagebtns
+        #         size_hint: None, None
+        #         size: self.minimum_size
+        #         pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+<TempProg>:
+    method_grid: method_grid
+    tp_grid: tp_grid
+    orientation: "vertical"
+    size_hint: 1, None
+    height: self.minimum_height
+    padding: 20,5,20,40
+    spacing: 20
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+            # on_release: root.open_datepicker()
+
+        ModuleSubCap:
+            text: "METHOD"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("method")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("method")
+
+
+    MDGridLayout:
+        id: method_grid
+        cols: 4
+        padding: 52,0
+        adaptive_height: True
+        spacing: 20, 10
+
+        SpinBox:
+            id: method
+            _lbl: "Method"
+            values: root.method_items
+            on_method: root.change_method(self.method)
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+        # Toolicon:
+        #     icon: "help-circle-outline"
+        #     tooltip_text: "Help"
+        #     pos_hint: {"center_y": .5}
+        #     on_release: root.editor.open_help()
+            # on_release: root.open_datepicker()
+
+        ModuleSubCap:
+            text: "TEMPERATURE PROGRAM"
+
+        Toolicon:
+            icon: "plus"
+            tooltip_text: "Add segment"
+            pos_hint: {"center_y": .5}
+            on_release: root.add_tp_row()
+
+        Toolicon:
+            icon: "minus"
+            tooltip_text: "Remove segment"
+            pos_hint: {"center_y": .5}
+            on_release: root.del_tp_row()
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("tp")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("program")
+
+
+
+    MDGridLayout:
+        id: tp_grid
+        cols: 5
+        padding: 52,0
+        adaptive_height: True
+        spacing: 10,10
+
+        Label:
+            size_hint_x: None
+            width: 10
+
+        TitleSpin:
+            id: tstart_unit
+            text: "T[sub][size=11]start[/size][/sub]"
+            values: ["°C","K"]
+        TitleSpin:
+            id: ramp_unit
+            text: "Ramp"
+            values: ["°C·min[sup][size=10sp]-1[/size][/sup]", "°C·h[sup][size=10sp]-1[/size][/sup]", "min", "h"]
+        TitleSpin:
+            id: tend_unit
+            text: "T[sub][size=11]end[/size][/sub]"
+            values: ["°C","K"]
+        TitleSpin:
+            id: dwell_unit
+            text: "Dwell"
+            values: ["h","min"]
+
+        # second row
+
+        Label:
+            id: seg
+            text: "1"
+            size_hint_x: None
+            width: 10
+
+        PlainTxtFld
+            id: tstart
+            _hint_text: "e.g. 25"
+        PlainTxtFld:
+            id: ramp
+            _hint_text: "e.g. 60"
+        PlainTxtFld:
+            id: tend
+            _hint_text: "e.g. 800"
+        PlainTxtFld:
+            id: dwell
+            _hint_text: "e.g. 12"
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        padding: 62,0,52,0
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            RoundedRectangle:
+                radius: 7,7,7,7
+                pos: self.pos
+                size: self.size
+
+
+        ModuleSubCap:
+            text: "EXPERIMENTAL DETAILS"
+
+        Toolicon:
+            icon: "import"
+            tooltip_text: "Import"
+            pos_hint: {"center_y": .5}
+            on_release: app.root.editor.open_import("expdet")
+
+        Toolicon:
+            icon: "refresh"
+            tooltip_text: "Reset"
+            pos_hint: {"center_y": .5}
+            on_release: root.reset("expdet")
+
+    MDBoxLayout:
+        adaptive_height: True
+        padding: 52,0
+
+        TextBox:
+            id: expdet
+            # _lbl: "Experimental Details"
+            _hint_text: "What did you do? Did something not go as planned?"
+            _btmlbl: "e.g. I licked all the tungsten carbide cubes for good luck."
+            _multiline: True
+            _halign: "left"
+
+<User>:
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: .9,.9,.9,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            id: functionbar
+            size_hint_y: None
+            height: 60
+            padding: "48dp", 0
+
+            Label:
+                text: "User"
+                color: 0,0,0,1
+                font_size: 25
+                bold: True
+                size_hint_x: None
+                width: self.texture_size[0]
+
+            Label
+
+            Toolicon:
+                icon: "account-plus"
+                tooltip_text: "Save User"
+                pos_hint: {"center_y": .5}
+                on_release: root.check("save")
+
+
+            Toolicon:
+                icon: "account-minus"
+                tooltip_text: "Delete User"
+                pos_hint: {"center_y": .5}
+                on_release: root.check("delete")
+
+            Toolicon:
+                icon: "refresh"
+                tooltip_text: "Reset"
+                pos_hint: {"center_y": .5}
+                on_release: root.new_user()
+
+        BoxLayout:
+            spacing: 25
+            padding: "48dp",0,"48dp",20
+
+            BoxLayout
+
+            BoxLayout:
+                id: sidebar
+                orientation: "vertical"
+                size_hint_x: None
+                width: 300
+                padding: 0,15
+                canvas.before:
+                    Color:
+                        rgba: 1,1,1,1
+                    RoundedRectangle:
+                        radius: 7,7,7,7
+                        pos: self.pos
+                        size: self.size
+
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 15,0,15,0
+                    spacing: 10
+                    # Label:
+                    #     text: "Users"
+                    #     bold: True
+                    #     color: 0,0,0,1
+                    #     font_size: 20
+                    #     size_hint: None, None
+                    #     valign: "top"
+                    #     size: self.texture_size[0] + 16, self.texture_size[1]
+
+                    TextBox:
+                        id: filter
+                        _hint_text: "Filter"
+                        _btmlbl: "e.g. Marwin"
+                        _font_size: 16
+                        _halign: "left"
+                        on_text: root.user_btns()
+
+
+                RecycleView:
+                    id: rv_btns
+                    data: root.userlist
+                    viewclass: "UserBtn"
+                    bar_width: 0
+                    scroll_wheel_distance: 100
+                    effect_cls: "ScrollEffect"
+                    RecycleGridLayout:
+                        id: samples
+                        cols: 1
+                        default_size: None, dp(50)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+
+            BoxLayout:
+                id: mainwindow
+                orientation: "vertical"
+                size_hint_x: None
+                width: 700
+                padding: 0,24
+                canvas.before:
+                    Color:
+                        rgba: 1,1,1,1
+                    RoundedRectangle:
+                        radius: 7,7,7,7
+                        pos: self.pos
+                        size: self.size
+
+                ScrollView:
+                    id: editor_sv
+                    bar_width: 10
+                    scroll_wheel_distance: 100
+                    effect_cls: "ScrollEffect"
+                    scroll_type: ["bars"]
+                    bar_color: 0,0,0,0.7
+                    bar_inactive_color: 0,0,0,0.3
+
+                    BoxLayout:
+                        id: userinfo
+                        orientation: "vertical"
+                        spacing: 40
+                        padding: "48dp",0,"48dp",0
+                        size_hint_y: None
+                        height: self.minimum_height
+
+                        SelfLabel:
+                            font_size: 30
+                            text: "Information"
+
+
+                        TextBox:
+                            id: givenname
+                            _halign: "left"
+                            _lbl: "Given name(s)"
+                            _hint_text: "e.g. Hermoine"
+                            _btmlbl: "e.g. Hermoine"
+
+                        TextBox:
+                            id: lastname
+                            _halign: "left"
+                            _lbl: "Last name(s)"
+                            _hint_text: "e.g. Granger"
+                            _btmlbl: "e.g. Granger"
+
+                        TextBox:
+                            id: abbrev
+                            _halign: "left"
+                            _lbl: "Abbreviation"
+                            _hint_text: "e.g. HG"
+                            _btmlbl: "e.g. HG"
+
+                        # TextBox:
+                        #     id: haircolor
+                        #     _halign: "left"
+                        #     _lbl: "Hair color"
+                        #     _hint_text: "e.g. nois"
+                        #     _btmlbl: "e.g. nois"
+                        #
+                        # TextBox:
+                        #     id: favmovie
+                        #     _halign: "left"
+                        #     _lbl: "Favorite movie"
+                        #     _hint_text: "e.g. High School Musical 3"
+                        #     _btmlbl: "e.g. High School Musical 3"
+
+            BoxLayout
