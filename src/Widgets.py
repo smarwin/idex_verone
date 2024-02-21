@@ -91,10 +91,10 @@ class AnaChip(MDChip):
     def on_status(self, instance, value):
         if value:
             self.color = self.active_color
-            self.ids.lbl.color = self.active_textcolor
+            self.ids.label.color = self.active_textcolor
         else:
             self.color = self.inactive_color
-            self.ids.lbl.color = self.inactive_textcolor
+            self.ids.label.color = self.inactive_textcolor
 
         if self.check:
             if self.ids.box_check.children[0].icon == "check":
@@ -113,7 +113,7 @@ class AnaChip(MDChip):
 
     def deselect(self):
         self.color = self.inactive_color
-        self.ids.lbl.color = self.inactive_textcolor
+        self.ids.label.color = self.inactive_textcolor
         self.status = False
 
         if self.check:
@@ -1247,7 +1247,7 @@ class SearchPopup(ModalView, ThemableBehavior):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        std_set = pickle.load(open("../IDEXDATA/DATA/std_settings.pkl", "rb"))
+        std_set = pickle.load(open("assets/std_settings.pkl", "rb"))
         self.home = std_set["HOME"]
 
     def key_action(self, *args):
@@ -1612,7 +1612,15 @@ class TxtOpt(PlainTxtFld):
         if self.dp.parent is None and values:
             # print(instance, " has no parent")
             self.dp.open(instance)
-            self.dp.children[0].children[-1].selected = True
+
+            # Check if lists are not empty
+            if self.dp.children and self.dp.children[0].children:
+                self.dp.children[0].children[-1].selected = True
+            else:
+                # Handle the case where the children lists are empty, possibly logging an error or taking corrective action
+                print("Error: Attempted to access an element in an empty list.")
+
+            # self.dp.children[0].children[-1].selected = True
 
         self.swi.fill_M(self, text_textinput)
 

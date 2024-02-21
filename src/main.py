@@ -32,8 +32,6 @@ Builder.load_file('Widgets.kv')
 Config.set('graphics', 'resizable', 0)
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Window.maximize()
-Window.minimum_width = 1200
-Window.minimum_height = 400
 
 
 # from kivymd.uix.picker import MDDatePicker
@@ -45,12 +43,12 @@ Clock.max_iteration = MAX_CLOCK_ITERATIONS
 # Standard variables
 
 try:
-    std_set = pickle.load(open("../IDEXDATA/DATA/std_settings.pkl", "rb"))
+    std_set = pickle.load(open("assets/std_settings.pkl", "rb"))
 
 except:
     std_set = {
-        "HOME": "../IDEXDATA",
-        "STDOP": "Marwin Dialer (MD)",
+        "HOME": "IDEXDATA",
+        "STDOP": "Default User (XDEF)",
         "OPERATOR": {}
     }
 
@@ -108,7 +106,7 @@ class Container(Screen, ThemableBehavior):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.settings_dict = pickle.load(
-            open("../IDEXDATA/DATA/std_settings.pkl", "rb"))
+            open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
         self.ops_list = []
         for i in self.ops_dict:
@@ -274,44 +272,44 @@ class Editor(Screen, ThemableBehavior):
             self.title += "|   -   "
 
     def check_for_file(self, *args):
-        if self.op == "Default User (XDEF)":
-            self.infopop.title = "Warning"
-            self.infopop.text = "The Default User is just for show. Please create your own user to save or delete experiments."
-            self.infopop.open()
-        else:
-            self.sid = self.info.ids.sid.txtfld.text
+        # if self.op == "Default User (XDEF)":
+        #     self.infopop.title = "Warning"
+        #     self.infopop.text = "The Default User is just for show. Please create your own user to save or delete experiments."
+        #     self.infopop.open()
+        # else:
+        self.sid = self.info.ids.sid.txtfld.text
 
-            if self.sid == "":
-                self.infopop.title = "Please enter a sample ID first"
-                self.infopop.text = "You need at least a sample ID for this function."
+        if self.sid == "":
+            self.infopop.title = "Please enter a sample ID first"
+            self.infopop.text = "You need at least a sample ID for this function."
+            self.infopop.open()
+
+        elif "save" in args:
+            if self.sid in self.expdict:
+                self.savedialog.open()
+            else:
+                self.save_entry()
+
+        elif "delete" in args:
+            if self.sid not in self.expdict:
+                self.infopop.title = "No entry found with this sample ID"
+                self.infopop.text = "Can't delete what isn't there. Mind you, you can only delete your current operator's entries."
                 self.infopop.open()
 
-            elif "save" in args:
-                if self.sid in self.expdict:
-                    self.savedialog.open()
-                else:
-                    self.save_entry()
+            else:
+                self.deletedialog.open()
 
-            elif "delete" in args:
-                if self.sid not in self.expdict:
-                    self.infopop.title = "No entry found with this sample ID"
-                    self.infopop.text = "Can't delete what isn't there. Mind you, you can only delete your current operator's entries."
-                    self.infopop.open()
+        elif "createpdf" in args:
 
-                else:
-                    self.deletedialog.open()
+            if os.path.exists(home + "/" + self.op + "/pdf/" + self.sid + ".pdf"):
+                self.pdfdialog.open()
+            elif self.sid in self.expdict:
+                self.make_pdf()
 
-            elif "createpdf" in args:
-
-                if os.path.exists(home + "/" + self.op + "/pdf/" + self.sid + ".pdf"):
-                    self.pdfdialog.open()
-                elif self.sid in self.expdict:
-                    self.make_pdf()
-
-                else:
-                    self.infopop.title = "Save this entry first!"
-                    self.infopop.text = "You need to save your entry before you can create the PDF file."
-                    self.infopop.open()
+            else:
+                self.infopop.title = "Save this entry first!"
+                self.infopop.text = "You need to save your entry before you can create the PDF file."
+                self.infopop.open()
 
     def close_all_panels(self):
         for module in self.modules:
@@ -1051,7 +1049,7 @@ class IDEXSettings(Screen, ThemableBehavior):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.settings_dict = pickle.load(
-            open("../IDEXDATA/DATA/std_settings.pkl", "rb"))
+            open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
         # self.ops_dict = {}
         self.ops_list = []
@@ -1108,7 +1106,7 @@ class IDEXSettings(Screen, ThemableBehavior):
 
         std_set["HOME"] = self.ids.home.text
         std_set["STDOP"] = self.ids.stdop.text
-        pickle.dump(std_set, open("../IDEXDATA/DATA/std_settings.pkl", "wb"))
+        pickle.dump(std_set, open("assets/std_settings.pkl", "wb"))
 
         self.stdop = self.ids.stdop.text
         self.home = self.ids.home.text
@@ -1143,7 +1141,7 @@ class Reactants(Screen, ThemableBehavior):
         super().__init__(**kwargs)
         try:
             self.reactant_dict = pickle.load(
-                open("../IDEXDATA/DATA/reactants.pkl", "rb"))
+                open("assets/reactants.pkl", "rb"))
         except:
             self.reactant_dict = {}
 
@@ -1193,7 +1191,7 @@ class Reactants(Screen, ThemableBehavior):
     def delete_reactant(self):
         self.reactant_dict.pop(self.ids.reac.txtfld.text)
         pickle.dump(self.reactant_dict, open(
-            "../IDEXDATA/DATA/reactants.pkl", "wb"))
+            "assets/reactants.pkl", "wb"))
         self.update_list()
         self.reset()
         self.editor.swi.update_reactants()
@@ -1285,7 +1283,7 @@ class Reactants(Screen, ThemableBehavior):
         }
 
         pickle.dump(self.reactant_dict, open(
-            "../IDEXDATA/DATA/reactants.pkl", "wb"))
+            "assets/reactants.pkl", "wb"))
         self.update_list()
         self.reset()
         self.editor.swi.update_reactants()
@@ -1306,8 +1304,8 @@ class Reactants(Screen, ThemableBehavior):
                     search_elements.append(i)
 
         # Get all Reactants
-        # if os.path.exists("../IDEXDATA/DATA/reactants.pkl"):
-        #     self.reactant_dict = pickle.load(open("../IDEXDATA/DATA/reactants.pkl","rb"))
+        # if os.path.exists("assets/reactants.pkl"):
+        #     self.reactant_dict = pickle.load(open("assets/reactants.pkl","rb"))
         # else:
         #     self.reactant_dict = {}
 
@@ -1571,7 +1569,7 @@ class SampleWeighin(BoxLayout, ThemableBehavior):
     def update_reactants(self):
         try:
             self.reactant_dict = pickle.load(
-                open("../IDEXDATA/DATA/reactants.pkl", "rb"))
+                open("assets/reactants.pkl", "rb"))
         except:
             self.reactant_dict = {}
 
@@ -1788,7 +1786,7 @@ class Search(Screen, ThemableBehavior):
 
     def __init__(self, **kwargs):
         super(Search, self).__init__(**kwargs)
-        std_set = pickle.load(open("../IDEXDATA/DATA/std_settings.pkl", "rb"))
+        std_set = pickle.load(open("assets/std_settings.pkl", "rb"))
         # try:
         #     self.home = std_set["Home Directory"]
         # except:
@@ -2659,7 +2657,7 @@ class User(Screen, ThemableBehavior):
             text="Are you sure to delete this operator and all his files?",
         )
         self.settings_dict = pickle.load(
-            open("../IDEXDATA/DATA/std_settings.pkl", "rb"))
+            open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
 
         Clock.schedule_once(lambda dt: self.user_btns())
@@ -2767,7 +2765,7 @@ class User(Screen, ThemableBehavior):
         self.settings_dict["OPERATOR"] = self.ops_dict
         print(self.ops_dict)
         pickle.dump(self.settings_dict, open(
-            "../IDEXDATA/DATA/std_settings.pkl", "wb"))
+            "assets/std_settings.pkl", "wb"))
         self.user_btns()
         self.new_user()
         self.update_ops()
@@ -2790,7 +2788,7 @@ class User(Screen, ThemableBehavior):
 
         self.settings_dict["OPERATOR"] = self.ops_dict
         pickle.dump(self.settings_dict, open(
-            "../IDEXDATA/DATA/std_settings.pkl", "wb"))
+            "assets/std_settings.pkl", "wb"))
 
         self.new_user()
         self.user_btns()
@@ -2819,7 +2817,7 @@ class User(Screen, ThemableBehavior):
         Window.bind(on_key_down=self.key_action)
         self.ids.givenname.txtfld.focus = True
         self.settings_dict = pickle.load(
-            open("../IDEXDATA/DATA/std_settings.pkl", "rb"))
+            open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
 
     def on_leave(self, *args):
