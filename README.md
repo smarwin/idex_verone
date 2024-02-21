@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Lean Electronic GUI Lab Notebook `idex ver#one`is designed for inorganic chemists who need a streamlined and efficient way to document their experiments, observations, and research findings. Built with simplicity and usability in mind, it facilitates easy entry, retrieval, and sharing of lab data. All data stays with you, and you can easily search for past experiments, balance chemical equations, and calculate molar mass and sample weigh-in.
+This Lean Electronic GUI Lab Notebook `idex ver#one` is designed for inorganic chemists who need a streamlined and efficient way to document their experiments, observations, and research findings. Built with simplicity and usability in mind, it facilitates easy entry, retrieval, and sharing of lab data. All data stays with you, and you can easily search for past experiments, balance chemical equations, and calculate molar mass and sample weigh-in.
 
 ## Features
 
@@ -37,4 +37,4 @@ Before you begin, ensure you have the following installed:
 
 ## License
 
-This project is licensed under the MIT License - see the `LICENSE` file for details.
+This project is licensed under the MIT License.
