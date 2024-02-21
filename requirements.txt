@@ -1,4 +1,7 @@
-kivy==2.0.0
-kivymd==0.104.2
+kivy==2.0.0rc3
+kivy_deps.angle==0.2.0
+kivy_deps.glew==0.2.0
+kivy_deps.sdl2==0.2.0
+kivymd==0.104.1
 chempy==0.7.10
 Pillow==7.2.0

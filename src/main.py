@@ -1,36 +1,34 @@
-import pickle
-from chempy import Substance, balance_stoichiometry
-from kivymd.app import MDApp
-from tex import *
-from testwidgets import *
-from kivy.utils import get_hex_from_color
-from kivy.metrics import dp
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.chip import MDChip
-from kivymd.theming import ThemableBehavior
-from kivymd.uix.behaviors import CircularRippleBehavior
-from kivy.uix.textinput import TextInput
-from kivymd.uix.button import MDIconButton, MDFlatButton
-from kivy.uix.button import Button
-from kivy.clock import Clock
-from kivy.factory import Factory
-from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelOneLine
-from kivymd.uix.behaviors import RectangularRippleBehavior
-from kivy.uix.behaviors import ButtonBehavior
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.icon_definitions import md_icons
-from kivymd.uix.list import OneLineIconListItem
-from kivy.uix.label import Label
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ObjectProperty, StringProperty, ListProperty, NumericProperty, BooleanProperty, DictProperty
-from kivy.uix.floatlayout import FloatLayout
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
-from kivy.lang import Builder
+# Standard Library Imports
 import os
+import pickle
+
+# Kivy and KivyMD Imports
+from kivy.clock import Clock
 from kivy.config import Config
 from kivy.core.window import Window
+from kivy.factory import Factory
+from kivy.lang import Builder
+from kivy.properties import (BooleanProperty, DictProperty, ListProperty,
+                             NumericProperty, ObjectProperty, StringProperty)
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.screenmanager import Screen
+from kivymd.app import MDApp
+from kivymd.theming import ThemableBehavior
+
+# External Libraries
+from chempy import Substance, balance_stoichiometry
+
+from Widgets import *
+from tex import *
+
+MAX_CLOCK_ITERATIONS = 200
+WINDOW_MIN_WIDTH = 1200
+WINDOW_MIN_HEIGHT = 400
+
+Builder.load_file('Layout.kv')
+Builder.load_file('Widgets.kv')
+
 Config.set('graphics', 'resizable', 0)
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Window.maximize()
@@ -42,10 +40,7 @@ Window.minimum_height = 400
 # from importpopup import ImportPopup
 
 
-Builder.load_file('testlayout.kv')
-Builder.load_file('testwidgets.kv')
-
-Clock.max_iteration = 200
+Clock.max_iteration = MAX_CLOCK_ITERATIONS
 
 # Standard variables
 
