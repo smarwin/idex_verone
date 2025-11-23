@@ -8,8 +8,14 @@ from kivy.config import Config
 from kivy.core.window import Window
 from kivy.factory import Factory
 from kivy.lang import Builder
-from kivy.properties import (BooleanProperty, DictProperty, ListProperty,
-                             NumericProperty, ObjectProperty, StringProperty)
+from kivy.properties import (
+    BooleanProperty,
+    DictProperty,
+    ListProperty,
+    NumericProperty,
+    ObjectProperty,
+    StringProperty,
+)
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
@@ -26,11 +32,11 @@ MAX_CLOCK_ITERATIONS = 200
 WINDOW_MIN_WIDTH = 1200
 WINDOW_MIN_HEIGHT = 400
 
-Builder.load_file('Layout.kv')
-Builder.load_file('Widgets.kv')
+Builder.load_file("Layout.kv")
+Builder.load_file("Widgets.kv")
 
-Config.set('graphics', 'resizable', 0)
-Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+Config.set("graphics", "resizable", 0)
+Config.set("input", "mouse", "mouse,multitouch_on_demand")
 Window.maximize()
 
 
@@ -46,11 +52,7 @@ try:
     std_set = pickle.load(open("assets/std_settings.pkl", "rb"))
 
 except:
-    std_set = {
-        "HOME": "IDEXDATA",
-        "STDOP": "Default User (XDEF)",
-        "OPERATOR": {}
-    }
+    std_set = {"HOME": "IDEXDATA", "STDOP": "Default User (XDEF)", "OPERATOR": {}}
 
 home = std_set["HOME"]
 stdop = std_set["STDOP"]
@@ -60,8 +62,20 @@ ops_dict = std_set["OPERATOR"]
 
 
 class Analytics(BoxLayout, ThemableBehavior):
-    anas = ["PXRD", "SCXRD", "HT-PXRD", "IR", "UV/VIS",
-            "FLUORESCENCE", "NMR", "CHNS", "ICP", "STEM", "EDX", "RAMAN"]
+    anas = [
+        "PXRD",
+        "SCXRD",
+        "HT-PXRD",
+        "IR",
+        "UV/VIS",
+        "FLUORESCENCE",
+        "NMR",
+        "CHNS",
+        "ICP",
+        "STEM",
+        "EDX",
+        "RAMAN",
+    ]
     prev = NumericProperty(None)
     editor = ObjectProperty()
 
@@ -105,13 +119,18 @@ class Container(Screen, ThemableBehavior):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.settings_dict = pickle.load(
-            open("assets/std_settings.pkl", "rb"))
+        self.settings_dict = pickle.load(open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
         self.ops_list = []
         for i in self.ops_dict:
             self.ops_list.append(
-                self.ops_dict[i]["givenname"] + " " + self.ops_dict[i]["lastname"] + " (" + i + ")")
+                self.ops_dict[i]["givenname"]
+                + " "
+                + self.ops_dict[i]["lastname"]
+                + " ("
+                + i
+                + ")"
+            )
 
         self.ops_list.sort()
 
@@ -128,38 +147,40 @@ class Editor(Screen, ThemableBehavior):
     samplelist = ListProperty()
     importpopup = None
     info_panel = ObjectProperty()
-    method_dict = DictProperty({
-        "Tube Furnace": {
-            "RGBA": [0/255, 121/255, 107/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "TF"
-        },
-        "RF Furnace": {
-            "RGBA": [255/255, 171/255, 5/255, 1],
-            "RGBATEXT": [0, 0, 0, 1],
-            "ABBREV": "RF"
-        },
-        "DSC": {
-            "RGBA": [105/255, 45/255, 9/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "DSC"
-        },
-        "Multianvil Press": {
-            "RGBA": [0/255, 50/255, 140/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "MAP"
-        },
-        "HIP": {
-            "RGBA": [181/255, 0/255, 16/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "HIP"
-        },
-        "Ammonothermal": {
-            "RGBA": [162/255, 0/255, 188/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "ATS"
+    method_dict = DictProperty(
+        {
+            "Tube Furnace": {
+                "RGBA": [0 / 255, 121 / 255, 107 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "TF",
+            },
+            "RF Furnace": {
+                "RGBA": [255 / 255, 171 / 255, 5 / 255, 1],
+                "RGBATEXT": [0, 0, 0, 1],
+                "ABBREV": "RF",
+            },
+            "DSC": {
+                "RGBA": [105 / 255, 45 / 255, 9 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "DSC",
+            },
+            "Multianvil Press": {
+                "RGBA": [0 / 255, 50 / 255, 140 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "MAP",
+            },
+            "HIP": {
+                "RGBA": [181 / 255, 0 / 255, 16 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "HIP",
+            },
+            "Ammonothermal": {
+                "RGBA": [162 / 255, 0 / 255, 188 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "ATS",
+            },
         }
-    })
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -171,7 +192,8 @@ class Editor(Screen, ThemableBehavior):
 
         try:
             self.expdict = pickle.load(
-                open(home + "/" + stdop + "/" + stdop + "_experiments.idx", "rb"))
+                open(home + "/" + stdop + "/" + stdop + "_experiments.idx", "rb")
+            )
         except:
             self.expdict = {}
 
@@ -192,7 +214,7 @@ class Editor(Screen, ThemableBehavior):
             id="save",
             obj=self,
             title="Save Entry?",
-            text="This entry already exists. Are you sure to overwrite it?"
+            text="This entry already exists. Are you sure to overwrite it?",
         )
 
         self.deletedialog = ConfirmPopup(
@@ -211,8 +233,7 @@ class Editor(Screen, ThemableBehavior):
             text="For this entry a PDF file already exists. Are you sure to overwrite it?",
         )
 
-        Clock.schedule_once(lambda dt: setattr(
-            self.ids.exp_op, "_starttext", stdop))
+        Clock.schedule_once(lambda dt: setattr(self.ids.exp_op, "_starttext", stdop))
         Clock.schedule_once(lambda dt: self.create_modules())
         Clock.schedule_once(lambda dt: self.sample_btns())
         Clock.schedule_once(lambda dt: self.info_panel.open())
@@ -234,11 +255,11 @@ class Editor(Screen, ThemableBehavior):
 
         try:
             self.expdict = pickle.load(
-                open(home + "/" + self.op + "/" + self.op + "_experiments.idx", "rb"))
+                open(home + "/" + self.op + "/" + self.op + "_experiments.idx", "rb")
+            )
         except:
             self.expdict = {}
-            f = open(home + "/" + self.op + "/" +
-                     self.op + "_experiments.idx", "w")
+            f = open(home + "/" + self.op + "/" + self.op + "_experiments.idx", "w")
 
         self.ops_list = os.listdir(home)
 
@@ -308,7 +329,9 @@ class Editor(Screen, ThemableBehavior):
 
             else:
                 self.infopop.title = "Save this entry first!"
-                self.infopop.text = "You need to save your entry before you can create the PDF file."
+                self.infopop.text = (
+                    "You need to save your entry before you can create the PDF file."
+                )
                 self.infopop.open()
 
     def close_all_panels(self):
@@ -317,34 +340,20 @@ class Editor(Screen, ThemableBehavior):
 
     def create_modules(self):
         self.info_panel = Panel(
-            content=self.info,
-            icon="information-outline",
-            title="Information"
+            content=self.info, icon="information-outline", title="Information"
         )
         self.reaction_panel = Panel(
-            content=self.reaction,
-            icon="react",
-            title="Reaction"
+            content=self.reaction, icon="react", title="Reaction"
         )
         self.swi_panel = Panel(
-            content=self.swi,
-            icon="scale-balance",
-            title="Sample Weigh-in"
+            content=self.swi, icon="scale-balance", title="Sample Weigh-in"
         )
         self.tp_panel = Panel(
-            content=self.tp,
-            icon="stove",
-            title="Method and Temperature Program"
+            content=self.tp, icon="stove", title="Method and Temperature Program"
         )
-        self.ana_panel = Panel(
-            content=self.ana,
-            icon="chart-bar",
-            title="Analytics"
-        )
+        self.ana_panel = Panel(content=self.ana, icon="chart-bar", title="Analytics")
         self.res_panel = Panel(
-            content=self.res,
-            icon="clipboard-check-outline",
-            title="Results"
+            content=self.res, icon="clipboard-check-outline", title="Results"
         )
 
         self.modules = [
@@ -353,7 +362,7 @@ class Editor(Screen, ThemableBehavior):
             self.swi_panel,
             self.tp_panel,
             self.ana_panel,
-            self.res_panel
+            self.res_panel,
         ]
 
         for module in self.modules:
@@ -376,8 +385,10 @@ class Editor(Screen, ThemableBehavior):
 
     def delete_entry(self):
         self.expdict.pop(self.sid)
-        pickle.dump(self.expdict, open(home + "/" + self.op +
-                    "/" + self.op + "_experiments.idx", "wb"))
+        pickle.dump(
+            self.expdict,
+            open(home + "/" + self.op + "/" + self.op + "_experiments.idx", "wb"),
+        )
 
         try:
             os.remove(home + "/" + self.op + "/pdf/" + self.sid + ".pdf")
@@ -397,7 +408,10 @@ class Editor(Screen, ThemableBehavior):
             self.exp_op = self.ids.exp_op.text
 
         self.sidebar_expdict = pickle.load(
-            open(home + "/" + self.exp_op + "/" + self.exp_op + "_experiments.idx", "rb"))
+            open(
+                home + "/" + self.exp_op + "/" + self.exp_op + "_experiments.idx", "rb"
+            )
+        )
 
         if "complete" in modules:
             try:
@@ -466,7 +480,9 @@ class Editor(Screen, ThemableBehavior):
 
         if "additives" in modules:
             try:
-                self.swi.ids.additives.txtfld.text = self.sidebar_expdict[sample]["SWI"]["ADDITIVES"]
+                self.swi.ids.additives.txtfld.text = self.sidebar_expdict[sample][
+                    "SWI"
+                ]["ADDITIVES"]
             except:
                 print("That did not work")
                 self.swi.ids.additives.txtfld.text = ""
@@ -478,7 +494,7 @@ class Editor(Screen, ThemableBehavior):
             # para = reversed(self.tp.method_parameters)
             for i, j in enumerate(tp_dict["METHOD"].values()):
                 if j != "Method":
-                    self.tp.method_parameters[i-1].txtfld.text = j
+                    self.tp.method_parameters[i - 1].txtfld.text = j
 
         if "expdet" in modules:
             tp_dict = self.sidebar_expdict[sample]["TP"]
@@ -499,7 +515,7 @@ class Editor(Screen, ThemableBehavior):
             self.tp.tp_rows = []
 
             no_seg = len(tp_dict["PROGRAM"])
-            for i in range(no_seg-1):
+            for i in range(no_seg - 1):
                 self.tp.add_tp_row()
 
             # Fill rows
@@ -513,11 +529,11 @@ class Editor(Screen, ThemableBehavior):
                     self.tp.ids.dwell.text = tp_dict["PROGRAM"][i]["DWELL"]
 
                 else:
-                    x[i-1][0].text = tp_dict["PROGRAM"][i]["SEGMENT"]
-                    x[i-1][1].text = tp_dict["PROGRAM"][i]["TSTART"]
-                    x[i-1][2].text = tp_dict["PROGRAM"][i]["RAMP"]
-                    x[i-1][3].text = tp_dict["PROGRAM"][i]["TEND"]
-                    x[i-1][4].text = tp_dict["PROGRAM"][i]["DWELL"]
+                    x[i - 1][0].text = tp_dict["PROGRAM"][i]["SEGMENT"]
+                    x[i - 1][1].text = tp_dict["PROGRAM"][i]["TSTART"]
+                    x[i - 1][2].text = tp_dict["PROGRAM"][i]["RAMP"]
+                    x[i - 1][3].text = tp_dict["PROGRAM"][i]["TEND"]
+                    x[i - 1][4].text = tp_dict["PROGRAM"][i]["DWELL"]
 
         if "ap" in modules:
             ana_dict = self.sidebar_expdict[sample]["ANALYTICS"]
@@ -550,7 +566,7 @@ class Editor(Screen, ThemableBehavior):
             self.res.product_rows = []
 
             no_prod = len(res_dict["PRODUCTS"])
-            for i in range(no_prod-1):
+            for i in range(no_prod - 1):
                 self.res.add_product_row()
 
             # Fill rows
@@ -558,12 +574,16 @@ class Editor(Screen, ThemableBehavior):
 
             for i in range(no_prod):
                 if i == 0:
-                    self.res.ids.identifier.txtfld.text = res_dict["PRODUCTS"][i]["IDENTIFIER"]
-                    self.res.ids.product.txtfld.text = res_dict["PRODUCTS"][i]["PRODUCT"]
+                    self.res.ids.identifier.txtfld.text = res_dict["PRODUCTS"][i][
+                        "IDENTIFIER"
+                    ]
+                    self.res.ids.product.txtfld.text = res_dict["PRODUCTS"][i][
+                        "PRODUCT"
+                    ]
 
                 else:
-                    x[i-1][0].text = res_dict["PRODUCTS"][i]["IDENTIFIER"]
-                    x[i-1][1].text = res_dict["PRODUCTS"][i]["PRODUCT"]
+                    x[i - 1][0].text = res_dict["PRODUCTS"][i]["IDENTIFIER"]
+                    x[i - 1][1].text = res_dict["PRODUCTS"][i]["PRODUCT"]
 
         if "res" in modules:
             res_dict = self.sidebar_expdict[sample]["RESULT"]
@@ -586,7 +606,8 @@ class Editor(Screen, ThemableBehavior):
             if not self.info_panel.is_open:
                 self.info_panel.open()
             Clock.schedule_once(
-                lambda dt: self.ids.editor_sv.scroll_to(self.info_panel))
+                lambda dt: self.ids.editor_sv.scroll_to(self.info_panel)
+            )
             self.info.ids.sid.txtfld.focus = True
 
         # Open Reaction and Focus
@@ -594,23 +615,22 @@ class Editor(Screen, ThemableBehavior):
             if not self.reaction_panel.is_open:
                 self.reaction_panel.open()
             Clock.schedule_once(
-                lambda dt: self.ids.editor_sv.scroll_to(self.reaction_panel))
+                lambda dt: self.ids.editor_sv.scroll_to(self.reaction_panel)
+            )
             self.reaction.ids.reactants.txtfld.focus = True
 
         # Open SWI and Focus
         if args[3] == "3" and "ctrl" in args[4] and "shift" not in args[4]:
             if not self.swi_panel.is_open:
                 self.swi_panel.open()
-            Clock.schedule_once(
-                lambda dt: self.ids.editor_sv.scroll_to(self.swi_panel))
+            Clock.schedule_once(lambda dt: self.ids.editor_sv.scroll_to(self.swi_panel))
             self.swi.ids.netweight.txtfld.focus = True
 
         # Open TP and Focus
         if args[3] == "4" and "ctrl" in args[4] and "shift" not in args[4]:
             if not self.tp_panel.is_open:
                 self.tp_panel.open()
-            Clock.schedule_once(
-                lambda dt: self.ids.editor_sv.scroll_to(self.tp_panel))
+            Clock.schedule_once(lambda dt: self.ids.editor_sv.scroll_to(self.tp_panel))
             self.tp.ids.method_grid.children[-2].txtfld.focus = True
 
         # Open Analytics and Focus
@@ -618,8 +638,7 @@ class Editor(Screen, ThemableBehavior):
             if not self.ana_panel.is_open:
                 self.ana_panel.open()
 
-            Clock.schedule_once(
-                lambda dt: self.ids.editor_sv.scroll_to(self.ana_panel))
+            Clock.schedule_once(lambda dt: self.ids.editor_sv.scroll_to(self.ana_panel))
             self.ana.ids.ap.txtfld.focus = True
 
         # Open Results and Focus
@@ -627,8 +646,7 @@ class Editor(Screen, ThemableBehavior):
             if not self.res_panel.is_open:
                 self.res_panel.open()
 
-            Clock.schedule_once(
-                lambda dt: self.ids.editor_sv.scroll_to(self.res_panel))
+            Clock.schedule_once(lambda dt: self.ids.editor_sv.scroll_to(self.res_panel))
             self.res.ids.identifier.txtfld.focus = True
 
         # Save Entry
@@ -802,7 +820,7 @@ class Editor(Screen, ThemableBehavior):
             ops_list=self.ops_list,
             op=self.container.ids.op.text,
             module=module,
-            home=home
+            home=home,
         )
 
         self.importpopup.open()
@@ -824,7 +842,11 @@ class Editor(Screen, ThemableBehavior):
         # Get the List of pkl files and strip the .pkl
         try:
             self.sidebar_expdict = pickle.load(
-                open(home + "/" + self.exp_op + "/" + self.exp_op + "_experiments.idx", "rb"))
+                open(
+                    home + "/" + self.exp_op + "/" + self.exp_op + "_experiments.idx",
+                    "rb",
+                )
+            )
         except:
             return
 
@@ -886,7 +908,7 @@ class Editor(Screen, ThemableBehavior):
             if compl:
                 text_color = self.theme_cls.primary_color
             else:
-                text_color = [181/255, 0/255, 16/255, 1]
+                text_color = [181 / 255, 0 / 255, 16 / 255, 1]
 
             if tag != "":
                 sidtag = sid + "   |   " + tag
@@ -912,7 +934,7 @@ class Editor(Screen, ThemableBehavior):
             "LABJOURNAL": self.info.ids.lj.text,
             "TARGET": self.info.ids.trgt.text,
             "DATE": self.info.ids.date.text,
-            "IDEA": self.info.ids.idea.text
+            "IDEA": self.info.ids.idea.text,
         }
 
         # REACTION
@@ -920,7 +942,7 @@ class Editor(Screen, ThemableBehavior):
             "REACTANTS": self.reaction.ids.reactants.text,
             "PRODUCTS": self.reaction.ids.products.text,
             "REACTANTSBAL": self.reaction.ids.output_reactants.text,
-            "PRODUCTSBAL": self.reaction.ids.output_products.text
+            "PRODUCTSBAL": self.reaction.ids.output_products.text,
         }
 
         # SWI
@@ -932,7 +954,7 @@ class Editor(Screen, ThemableBehavior):
                 "EQUIVALENT": i.children[4].text,
                 "MOLAR MASS": i.children[3].text,
                 "MOL": i.children[2].text,
-                "MASS": i.children[1].text
+                "MASS": i.children[1].text,
             }
             reactants_list.append(reactant_dict)
 
@@ -947,13 +969,15 @@ class Editor(Screen, ThemableBehavior):
         for i in reversed(self.tp.ids.method_grid.children):
             method_dict[i.lbl.text] = i.text
 
-        program_list = [{
-            "SEGMENT": "1",
-            "TSTART": self.tp.ids.tstart.text,
-            "RAMP": self.tp.ids.ramp.text,
-            "TEND": self.tp.ids.tend.text,
-            "DWELL": self.tp.ids.dwell.text,
-        }]
+        program_list = [
+            {
+                "SEGMENT": "1",
+                "TSTART": self.tp.ids.tstart.text,
+                "RAMP": self.tp.ids.ramp.text,
+                "TEND": self.tp.ids.tend.text,
+                "DWELL": self.tp.ids.dwell.text,
+            }
+        ]
 
         for i in self.tp.tp_rows:
             program_dict = {
@@ -961,7 +985,7 @@ class Editor(Screen, ThemableBehavior):
                 "TSTART": i[1].text,
                 "RAMP": i[2].text,
                 "TEND": i[3].text,
-                "DWELL": i[4].text
+                "DWELL": i[4].text,
             }
             program_list.append(program_dict)
 
@@ -976,7 +1000,7 @@ class Editor(Screen, ThemableBehavior):
             "METHOD": method_dict,
             "EXPERIMENTAL DETAILS": self.tp.ids.expdet.text,
             "UNITS": units_dict,
-            "PROGRAM": program_list
+            "PROGRAM": program_list,
         }
 
         # ANA
@@ -987,14 +1011,16 @@ class Editor(Screen, ThemableBehavior):
         ana_dict = {
             "APPEARANCE": self.ana.ids.ap.text,
             "METHODS": ana_method_dict,
-            "ANALYTICAL DETAILS": self.ana.ids.anadet.text
+            "ANALYTICAL DETAILS": self.ana.ids.anadet.text,
         }
 
         # RES
-        product_list = [{
-            "IDENTIFIER": self.res.ids.identifier.text,
-            "PRODUCT": self.res.ids.product.text
-        }]
+        product_list = [
+            {
+                "IDENTIFIER": self.res.ids.identifier.text,
+                "PRODUCT": self.res.ids.product.text,
+            }
+        ]
         for i in self.res.product_rows:
             product_dict = {}
             product_dict["IDENTIFIER"] = i[0].text
@@ -1003,7 +1029,7 @@ class Editor(Screen, ThemableBehavior):
 
         res_dict = {
             "PRODUCTS": product_list,
-            "CONCLUSION": self.res.ids.conclusion.text
+            "CONCLUSION": self.res.ids.conclusion.text,
         }
 
         # MERGE everything
@@ -1016,13 +1042,15 @@ class Editor(Screen, ThemableBehavior):
             "SWI": swi_dict,
             "TP": tp_dict,
             "ANALYTICS": ana_dict,
-            "RESULT": res_dict
+            "RESULT": res_dict,
         }
 
         self.expdict[self.info.ids.sid.text] = entry_dict
 
-        pickle.dump(self.expdict, open(home + "/" + self.op +
-                    "/" + self.op + "_experiments.idx", "wb"))
+        pickle.dump(
+            self.expdict,
+            open(home + "/" + self.op + "/" + self.op + "_experiments.idx", "wb"),
+        )
 
         self.sample_btns()
         setattr(self.ids.exp_op, "text", self.container.ids.op.text)
@@ -1034,8 +1062,9 @@ class Editor(Screen, ThemableBehavior):
     def view_pdf(self):
         self.sampleid = self.info.ids.sid.txtfld.text
         if os.path.exists(home + "/" + self.op + "/pdf/" + self.sampleid + ".pdf"):
-            subprocess.Popen(self.sampleid + ".pdf", cwd=home +
-                             "/" + self.op + "/pdf", shell=True)
+            subprocess.Popen(
+                self.sampleid + ".pdf", cwd=home + "/" + self.op + "/pdf", shell=True
+            )
         else:
             self.infopop.title = "No PDF found"
             self.infopop.text = "Create a PDF first."
@@ -1048,14 +1077,19 @@ class IDEXSettings(Screen, ThemableBehavior):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.settings_dict = pickle.load(
-            open("assets/std_settings.pkl", "rb"))
+        self.settings_dict = pickle.load(open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
         # self.ops_dict = {}
         self.ops_list = []
         for i in self.ops_dict:
             self.ops_list.append(
-                self.ops_dict[i]["givenname"] + " " + self.ops_dict[i]["lastname"] + " (" + i + ")")
+                self.ops_dict[i]["givenname"]
+                + " "
+                + self.ops_dict[i]["lastname"]
+                + " ("
+                + i
+                + ")"
+            )
 
         self.ops_list.sort()
         self.stdop = stdop
@@ -1086,7 +1120,9 @@ class IDEXSettings(Screen, ThemableBehavior):
 
         if who == "stdop":
             self.infopop.title = "Info"
-            self.infopop.text = "You can choose your standard user here. Usually, that would be you."
+            self.infopop.text = (
+                "You can choose your standard user here. Usually, that would be you."
+            )
             self.infopop.open()
 
     def on_enter(self):
@@ -1140,8 +1176,7 @@ class Reactants(Screen, ThemableBehavior):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         try:
-            self.reactant_dict = pickle.load(
-                open("assets/reactants.pkl", "rb"))
+            self.reactant_dict = pickle.load(open("assets/reactants.pkl", "rb"))
         except:
             self.reactant_dict = {}
 
@@ -1165,14 +1200,19 @@ class Reactants(Screen, ThemableBehavior):
         )
 
         Clock.schedule_once(lambda dt: self.update_list())
-        Clock.schedule_once(lambda dt: self.ids.reac.ids.txtfld.bind(
-            text=lambda instance, text: self.fill_M(text)))
+        Clock.schedule_once(
+            lambda dt: self.ids.reac.ids.txtfld.bind(
+                text=lambda instance, text: self.fill_M(text)
+            )
+        )
 
     def check(self, *args):
         if "save" in args:
             if not self.ids.reac.txtfld.text or not self.ids.molarmass.txtfld.text:
                 self.infopop.title = "Minimum requirements not met"
-                self.infopop.text = "You need at least a formula and its molar mass for this action."
+                self.infopop.text = (
+                    "You need at least a formula and its molar mass for this action."
+                )
                 self.infopop.open()
             elif self.ids.reac.txtfld.text in self.reactant_dict:
                 self.savedialog.open()
@@ -1190,8 +1230,7 @@ class Reactants(Screen, ThemableBehavior):
 
     def delete_reactant(self):
         self.reactant_dict.pop(self.ids.reac.txtfld.text)
-        pickle.dump(self.reactant_dict, open(
-            "assets/reactants.pkl", "wb"))
+        pickle.dump(self.reactant_dict, open("assets/reactants.pkl", "wb"))
         self.update_list()
         self.reset()
         self.editor.swi.update_reactants()
@@ -1279,11 +1318,10 @@ class Reactants(Screen, ThemableBehavior):
             "Tag": self.ids.tag.txtfld.text,
             "Tmelt": self.ids.tmelt.txtfld.text,
             "Tboil": self.ids.tboil.txtfld.text,
-            "Tdecomp": self.ids.tdecomp.txtfld.text
+            "Tdecomp": self.ids.tdecomp.txtfld.text,
         }
 
-        pickle.dump(self.reactant_dict, open(
-            "assets/reactants.pkl", "wb"))
+        pickle.dump(self.reactant_dict, open("assets/reactants.pkl", "wb"))
         self.update_list()
         self.reset()
         self.editor.swi.update_reactants()
@@ -1358,7 +1396,7 @@ class Reaction(BoxLayout, ThemableBehavior):
 
         self.infopop = InfoPopup(
             title="That did not work!",
-            text="Did you catch all the elements on both sides? You can enter the solution also manually."
+            text="Did you catch all the elements on both sides? You can enter the solution also manually.",
         )
 
     def balance_reaction(self):
@@ -1372,7 +1410,8 @@ class Reaction(BoxLayout, ThemableBehavior):
             self.prod = self.ids.products.text.split("+")
 
             self.reac, self.prod = balance_stoichiometry(
-                self.reac, self.prod, underdetermined=None)
+                self.reac, self.prod, underdetermined=None
+            )
             print(self.reac)
             print(self.prod)
             for i in self.reac:
@@ -1474,8 +1513,7 @@ class Result(BoxLayout, ThemableBehavior):
 
     def add_product_row(self):
         identifier = PlainTxtFld(
-            _hint_text="e.g. washed with H2O or MD001a",
-            size_hint=(0.4, None)
+            _hint_text="e.g. washed with H2O or MD001a", size_hint=(0.4, None)
         )
         product = PlainTxtFld(
             _hint_text="e.g. AlN + AlN + AlN",
@@ -1519,7 +1557,7 @@ class SampleWeighin(BoxLayout, ThemableBehavior):
         super().__init__(**kwargs)
         self.infopop = InfoPopup(
             title="That did not work!",
-            text="Did you enter 'Net weight'? Please choose your reactant and only use numbers separated by points. (Computers prefer points...)"
+            text="Did you enter 'Net weight'? Please choose your reactant and only use numbers separated by points. (Computers prefer points...)",
         )
 
         self.update_reactants()
@@ -1568,8 +1606,7 @@ class SampleWeighin(BoxLayout, ThemableBehavior):
 
     def update_reactants(self):
         try:
-            self.reactant_dict = pickle.load(
-                open("assets/reactants.pkl", "rb"))
+            self.reactant_dict = pickle.load(open("assets/reactants.pkl", "rb"))
         except:
             self.reactant_dict = {}
 
@@ -1586,7 +1623,9 @@ class SampleWeighin(BoxLayout, ThemableBehavior):
 
         if instance_row != None:
             if formula in self.reactant_dict:
-                self.swi_rows[instance_row].children[3].text = self.reactant_dict[formula]["Molar Mass"]
+                self.swi_rows[instance_row].children[3].text = self.reactant_dict[
+                    formula
+                ]["Molar Mass"]
             else:
                 self.swi_rows[instance_row].children[3].text = ""
 
@@ -1598,42 +1637,32 @@ class SampleWeighin(BoxLayout, ThemableBehavior):
         updnbox = BoxLayout(
             size_hint=(None, None),
             size=(45, 40),
-            padding=(2.5, 2.5),
-            orientation="vertical"
+            padding=[2.5, 2.5],
+            orientation="vertical",
         )
 
         upbtn = IcnBtn(
             icon="chevron-up",
             radius=[4, 4, 0, 0],
-            on_release=lambda x: self.move_row_up(row_grid)
+            on_release=lambda x: self.move_row_up(row_grid),
         )
         dnbtn = IcnBtn(
             icon="chevron-down",
             radius=[0, 0, 4, 4],
-            on_release=lambda x: self.move_row_down(row_grid)
+            on_release=lambda x: self.move_row_down(row_grid),
         )
         updnbox.add_widget(upbtn)
         updnbox.add_widget(dnbtn)
 
         # create all txt/lblflds
-        reac = TxtOpt(
-            _hint_text="e.g. Sr2N",
-            swi=self
-        )
-        eq = PlainTxtFld(
-            _hint_text="e.g. 1.0"
-        )
-        molarmass = PlainTxtFld(
-            _hint_text="e.g. 189.25"
-        )
+        reac = TxtOpt(_hint_text="e.g. Sr2N", swi=self)
+        eq = PlainTxtFld(_hint_text="e.g. 1.0")
+        molarmass = PlainTxtFld(_hint_text="e.g. 189.25")
         mol = Factory.PlainLabel()
         mass = Factory.PlainLabel()
 
         # delbtn = DeleteButton(box=row_grid)
-        lbl = Label(
-            size_hint=(None, None),
-            size=(40, 40)
-        )
+        lbl = Label(size_hint=(None, None), size=(40, 40))
 
         # append new row_grid to find later
         self.swi_rows.append(row_grid)
@@ -1669,13 +1698,12 @@ class SampleWeighin(BoxLayout, ThemableBehavior):
                 eq_list.append(float(i.children[4].text))
 
             # Calculate the sumproduct which is the denominator
-            Meq_product = [i*j for i, j in zip(M_list, eq_list)]
+            Meq_product = [i * j for i, j in zip(M_list, eq_list)]
             Meq_sumproduct = sum(Meq_product)
 
             # Calculate the results for mass and mol
             for i, j in enumerate(Meq_product):
-                result_mass = j / Meq_sumproduct * \
-                    float(self.ids.netweight.txtfld.text)
+                result_mass = j / Meq_sumproduct * float(self.ids.netweight.txtfld.text)
                 result_mol = result_mass / M_list[i]
                 list_mass.append(result_mass)
                 list_mol.append(result_mol)
@@ -1712,27 +1740,21 @@ class Search(Screen, ThemableBehavior):
     home = StringProperty()
     numres = StringProperty("0")
     themedict = {
-        "green": [
-            55/255, 200/255, 171/255, 1
-        ],
-        "red": [
-            255/255, 85/255, 85/255, 1
-        ],
-        "blue": [
-            42/255, 212/255, 255/255, 1
-        ],
-        "violet": [
-            229/255, 128/255, 255/255, 1
-        ],
-        "orange": [
-            255/255, 153/255, 85/255, 1
-        ],
-        "yellow": [
-            255/255, 221/255, 85/255, 1
-        ],
-        "grey": [
-            222/255, 222/255, 222/255, 1
-        ], "cc1_lightblue": [85/255, 221/255, 255/255, 1], "cc1_blue": [42/255, 127/255, 255/255, 1], "cc1_beige": [255/255, 246/255, 213/255, 1], "cc1_green": [43/255, 160/255, 43/255, 1], "cc1_brown": [85/255, 34/255, 0/255, 1], "cc1_turquoise": [0/255, 102/255, 128/255, 1], "cc1_yellow": [255/255, 230/255, 128/255, 1]}
+        "green": [55 / 255, 200 / 255, 171 / 255, 1],
+        "red": [255 / 255, 85 / 255, 85 / 255, 1],
+        "blue": [42 / 255, 212 / 255, 255 / 255, 1],
+        "violet": [229 / 255, 128 / 255, 255 / 255, 1],
+        "orange": [255 / 255, 153 / 255, 85 / 255, 1],
+        "yellow": [255 / 255, 221 / 255, 85 / 255, 1],
+        "grey": [222 / 255, 222 / 255, 222 / 255, 1],
+        "cc1_lightblue": [85 / 255, 221 / 255, 255 / 255, 1],
+        "cc1_blue": [42 / 255, 127 / 255, 255 / 255, 1],
+        "cc1_beige": [255 / 255, 246 / 255, 213 / 255, 1],
+        "cc1_green": [43 / 255, 160 / 255, 43 / 255, 1],
+        "cc1_brown": [85 / 255, 34 / 255, 0 / 255, 1],
+        "cc1_turquoise": [0 / 255, 102 / 255, 128 / 255, 1],
+        "cc1_yellow": [255 / 255, 230 / 255, 128 / 255, 1],
+    }
     # colordict = {
     #     "DSC": {"Button": "data/images/cc1_brown.png", "Color": themedict["cc1_brown"], "TextColor": [1,1,1,1]}, "TF": {"Button": "data/images/cc1_turquoise.png", "Color": themedict["cc1_turquoise"], "TextColor": [1,1,1,1]}, "RF": {"Button": "data/images/cc1_yellow.png", "Color": themedict["cc1_yellow"], "TextColor": [0,0,0,1]}, "MP": {"Button": "data/images/cc1_green.png", "Color": themedict["cc1_green"], "TextColor": [1,1,1,1]}, "HIP": {"Button": "data/images/cc1_blue.png", "Color": themedict["cc1_blue"], "TextColor": [1,1,1,1]}, "AS": {"Button": "data/images/cc1_lightblue.png", "Color": themedict["cc1_lightblue"], "TextColor": [0,0,0,1]}}
     abbrev_dict = {
@@ -1741,42 +1763,44 @@ class Search(Screen, ThemableBehavior):
         "DSC": "DSC",
         "Multianvil Press": "MP",
         "HIP": "HIP",
-        "Ammonothermal": "AS"
+        "Ammonothermal": "AS",
     }
-    method_dict = DictProperty({
-        "Tube Furnace": {
-            "RGBA": [0/255, 121/255, 107/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "TF"
-        },
-        "RF Furnace": {
-            "RGBA": [255/255, 171/255, 5/255, 1],
-            "RGBATEXT": [0, 0, 0, 1],
-            "ABBREV": "RF",
-            "HEX": "ffab05"
-        },
-        "DSC": {
-            "RGBA": [105/255, 45/255, 9/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "DSC"
-        },
-        "Multianvil Press": {
-            "RGBA": [0/255, 50/255, 140/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "MAP"
-        },
-        "HIP": {
-            "RGBA": [181/255, 0/255, 16/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "HIP",
-            "HEX": "b50010"
-        },
-        "Ammonothermal": {
-            "RGBA": [162/255, 0/255, 188/255, 1],
-            "RGBATEXT": [1, 1, 1, 1],
-            "ABBREV": "ATS"
+    method_dict = DictProperty(
+        {
+            "Tube Furnace": {
+                "RGBA": [0 / 255, 121 / 255, 107 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "TF",
+            },
+            "RF Furnace": {
+                "RGBA": [255 / 255, 171 / 255, 5 / 255, 1],
+                "RGBATEXT": [0, 0, 0, 1],
+                "ABBREV": "RF",
+                "HEX": "ffab05",
+            },
+            "DSC": {
+                "RGBA": [105 / 255, 45 / 255, 9 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "DSC",
+            },
+            "Multianvil Press": {
+                "RGBA": [0 / 255, 50 / 255, 140 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "MAP",
+            },
+            "HIP": {
+                "RGBA": [181 / 255, 0 / 255, 16 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "HIP",
+                "HEX": "b50010",
+            },
+            "Ammonothermal": {
+                "RGBA": [162 / 255, 0 / 255, 188 / 255, 1],
+                "RGBATEXT": [1, 1, 1, 1],
+                "ABBREV": "ATS",
+            },
         }
-    })
+    )
 
     rv_sc = ListProperty()
     results = {}
@@ -1807,16 +1831,16 @@ class Search(Screen, ThemableBehavior):
                 font_size=30,
                 size_hint_y=None,
                 color=[0.7, 0.7, 0.7, 1],
-                height=200
+                height=200,
             )
 
             self.ids.gl_search.add_widget(sl_notfound)
             return
 
-        if page*num_of_entries > len(self.rv_sc):
-            rng = range((page-1)*num_of_entries, len(self.rv_sc))
+        if page * num_of_entries > len(self.rv_sc):
+            rng = range((page - 1) * num_of_entries, len(self.rv_sc))
         else:
-            rng = range((page-1)*num_of_entries, page*num_of_entries)
+            rng = range((page - 1) * num_of_entries, page * num_of_entries)
 
         for i in rng:
             svc = SearchViewClass(
@@ -1830,7 +1854,7 @@ class Search(Screen, ThemableBehavior):
                 method_color_text=self.rv_sc[i]["method_color_text"],
                 search=self,
                 searchpop=self.searchpop,
-                editor=self.editor
+                editor=self.editor,
             )
 
             for j, k in enumerate(self.rv_sc[i]["strlist"]):
@@ -1853,7 +1877,8 @@ class Search(Screen, ThemableBehavior):
         for i in self.results:
             try:
                 exp_dict = pickle.load(
-                    open(home + "/" + i + "/" + i + "_experiments.idx", "rb"))
+                    open(home + "/" + i + "/" + i + "_experiments.idx", "rb")
+                )
             except:
                 exp_dict = {}
 
@@ -1906,28 +1931,37 @@ class Search(Screen, ThemableBehavior):
                             notaddedyet = False
 
                             idea = idea.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                         else:
                             idea = idea.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                     str_list.append(["Idea:", idea])
 
                 if "reaction" in hits:
                     try:
-                        reacstr = reac_dict["REACTANTSBAL"] + \
-                            "    -->    " + reac_dict["PRODUCTSBAL"]
+                        reacstr = (
+                            reac_dict["REACTANTSBAL"]
+                            + "    -->    "
+                            + reac_dict["PRODUCTSBAL"]
+                        )
                     except:
-                        reacstr = reac_dict["REACTANTS"] + \
-                            "    -->    " + reac_dict["PRODUCTS"]
+                        reacstr = (
+                            reac_dict["REACTANTS"]
+                            + "    -->    "
+                            + reac_dict["PRODUCTS"]
+                        )
 
                     for f in self.search_elements:
                         trgt = chemify(f, 16)
 
                         if trgt in reacstr:
                             reacstr = reacstr.replace(
-                                trgt, f"[color={self.hit_color}]" + trgt + "[/color]")
+                                trgt, f"[color={self.hit_color}]" + trgt + "[/color]"
+                            )
 
                     # reacstr = reacstr.replace("12sp","10sp")
                     str_list.append(["Reaction:", reacstr])
@@ -1939,18 +1973,21 @@ class Search(Screen, ThemableBehavior):
                             trgt = chemify(m["REACTANT"], 15)
 
                             if m == swi_dict[-1]:
-                                rceq_list = rceq_list + trgt + \
-                                    " (" + m["EQUIVALENT"] + ")"
+                                rceq_list = (
+                                    rceq_list + trgt + " (" + m["EQUIVALENT"] + ")"
+                                )
                             else:
-                                rceq_list = rceq_list + trgt + \
-                                    " (" + m["EQUIVALENT"] + "),   "
+                                rceq_list = (
+                                    rceq_list + trgt + " (" + m["EQUIVALENT"] + "),   "
+                                )
 
                     for f in self.search_elements:
                         trgt = chemify(f, 15)
 
                         if trgt in rceq_list:
                             rceq_list = rceq_list.replace(
-                                trgt, f"[color={self.hit_color}]" + trgt + "[/color]")
+                                trgt, f"[color={self.hit_color}]" + trgt + "[/color]"
+                            )
 
                     str_list.append(["Reactants:", rceq_list])
 
@@ -1975,11 +2012,13 @@ class Search(Screen, ThemableBehavior):
                         fchem = chemify(f, 15)
                         if f in meth_str:
                             meth_str = meth_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                         elif fchem in meth_str:
                             meth_str = meth_str.replace(
-                                fchem, f"[color={self.hit_color}]" + fchem + "[/color]")
+                                fchem, f"[color={self.hit_color}]" + fchem + "[/color]"
+                            )
 
                     str_list.append(["Method:", meth_str])
 
@@ -2001,7 +2040,8 @@ class Search(Screen, ThemableBehavior):
                         for f in self.search_elements:
                             if f in tp_str:
                                 tp_str = tp_str.replace(
-                                    f, f"[color={self.hit_color}]" + f + "[/color]")
+                                    f, f"[color={self.hit_color}]" + f + "[/color]"
+                                )
 
                         if m is not tp_dict["PROGRAM"][-1]:
                             tp_str = tp_str + "     -->     "
@@ -2028,11 +2068,13 @@ class Search(Screen, ThemableBehavior):
                             notaddedyet = False
 
                             expdet_str = expdet_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                         else:
                             expdet_str = expdet_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                     str_list.append(["Exp. Det.:", expdet_str])
 
@@ -2055,11 +2097,13 @@ class Search(Screen, ThemableBehavior):
                             notaddedyet = False
 
                             ap_str = ap_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                         else:
                             ap_str = ap_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                     str_list.append(["Appearance:", ap_str])
 
@@ -2075,7 +2119,8 @@ class Search(Screen, ThemableBehavior):
                     for f in self.search_elements:
                         if f in anamet_str:
                             anamet_str = anamet_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                     str_list.append(["Analytics:", anamet_str])
 
@@ -2098,11 +2143,13 @@ class Search(Screen, ThemableBehavior):
                             notaddedyet = False
 
                             anadet_str = anadet_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                         else:
                             anadet_str = anadet_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                     str_list.append(["Ana. Det.:", anadet_str])
 
@@ -2134,11 +2181,14 @@ class Search(Screen, ThemableBehavior):
                             trgt = chemify(f, 15)
                             if f in prod_str:
                                 prod_str = prod_str.replace(
-                                    f, f"[color={self.hit_color}]" + f + "[/color]")
+                                    f, f"[color={self.hit_color}]" + f + "[/color]"
+                                )
 
                             elif trgt in prod_str:
                                 prod_str = prod_str.replace(
-                                    trgt, f"[color={self.hit_color}]" + trgt + "[/color]")
+                                    trgt,
+                                    f"[color={self.hit_color}]" + trgt + "[/color]",
+                                )
 
                         str_list.append(["Products:", prod_str])
 
@@ -2161,11 +2211,13 @@ class Search(Screen, ThemableBehavior):
                             notaddedyet = False
 
                             concl_str = concl_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                         else:
                             concl_str = concl_str.replace(
-                                f, f"[color={self.hit_color}]" + f + "[/color]")
+                                f, f"[color={self.hit_color}]" + f + "[/color]"
+                            )
 
                     str_list.append(["Conclusion:", concl_str])
 
@@ -2183,18 +2235,21 @@ class Search(Screen, ThemableBehavior):
         btn_list = []
 
         if len(self.rv_sc) % 10 == 0:
-            rng = int(len(self.rv_sc)/10)
+            rng = int(len(self.rv_sc) / 10)
         else:
-            rng = int(len(self.rv_sc)/10)+1
+            rng = int(len(self.rv_sc) / 10) + 1
 
         if rng:
             for i in range(rng):
                 if i < 10:
                     btn = PageToggler(
-                        text=str(i+1),
+                        text=str(i + 1),
                     )
-                    btn.bind(on_release=lambda instance: self.create_content(
-                        int(instance.text), 10))
+                    btn.bind(
+                        on_release=lambda instance: self.create_content(
+                            int(instance.text), 10
+                        )
+                    )
                     btn_list.append(btn)
                     self.ids.pagebtns.add_widget(btn)
 
@@ -2202,8 +2257,9 @@ class Search(Screen, ThemableBehavior):
             btn = PageToggler(
                 text=str(1),
             )
-            btn.bind(on_release=lambda instance: self.create_content(
-                int(instance.text), 10))
+            btn.bind(
+                on_release=lambda instance: self.create_content(int(instance.text), 10)
+            )
             btn_list.append(btn)
             self.ids.pagebtns.add_widget(btn)
 
@@ -2270,7 +2326,8 @@ class Search(Screen, ThemableBehavior):
         for i in op_list:
             try:
                 exp_dict = pickle.load(
-                    open(home + "/" + i + "/" + i + "_experiments.idx", "rb"))
+                    open(home + "/" + i + "/" + i + "_experiments.idx", "rb")
+                )
             except:
                 exp_dict = {}
 
@@ -2395,124 +2452,84 @@ class TempProg(BoxLayout, ThemableBehavior):
     tp_rows = ListProperty()
     prev = NumericProperty()
     editor = ObjectProperty()
-    methods = DictProperty({
-        "Tube Furnace": {
-            "Method ID": {
-                "_hint_text": "e.g. C4",
-                "_btmlbl": "e.g. C4"
+    methods = DictProperty(
+        {
+            "Tube Furnace": {
+                "Method ID": {"_hint_text": "e.g. C4", "_btmlbl": "e.g. C4"},
+                "Crucible": {
+                    "_hint_text": "e.g. Ta, W, Al2O3",
+                    "_btmlbl": "e.g. Ta, W, Al2O3",
+                },
+                "Atmosphere": {
+                    "_hint_text": "e.g. Vacuum, N2, Ar",
+                    "_btmlbl": "e.g. Vacuum, N2, Ar",
+                },
             },
-            "Crucible": {
-                "_hint_text": "e.g. Ta, W, Al2O3",
-                "_btmlbl": "e.g. Ta, W, Al2O3"
+            "RF Furnace": {
+                "Method ID": {
+                    "_hint_text": "e.g. Bonnie, Clyde",
+                    "_btmlbl": "e.g. Bonnie, Clyde",
+                },
+                "Crucible": {"_hint_text": "e.g. Ta, W", "_btmlbl": "e.g. Ta, W"},
+                "Atmosphere": {
+                    "_hint_text": "e.g. Vacuum, N2, Ar",
+                    "_btmlbl": "e.g. Vacuum, N2, Ar",
+                },
             },
-            "Atmosphere": {
-                "_hint_text": "e.g. Vacuum, N2, Ar",
-                "_btmlbl": "e.g. Vacuum, N2, Ar"
-            }
-        },
-        "RF Furnace": {
-            "Method ID": {
-                "_hint_text": "e.g. Bonnie, Clyde",
-                "_btmlbl": "e.g. Bonnie, Clyde"
+            "DSC": {
+                "Modus": {
+                    "_hint_text": "e.g. TG, DSC, TG/DSC",
+                    "_btmlbl": "e.g. TG, DSC, TG/DSC",
+                },
+                "Crucible": {
+                    "_hint_text": "e.g. Ta, Al2O3, Cu",
+                    "_btmlbl": "e.g. Ta, Al2O3, Cu",
+                },
+                "Atmosphere": {"_hint_text": "e.g. Ar", "_btmlbl": "e.g. Ar"},
+                "Gas Flow": {"_hint_text": "e.g. 5 ml/min", "_btmlbl": "e.g. 5 ml/min"},
             },
-            "Crucible": {
-                "_hint_text": "e.g. Ta, W",
-                "_btmlbl": "e.g. Ta, W"
+            "HIP": {
+                "Method ID": {"_hint_text": "e.g. hippo", "_btmlbl": "e.g. hippo"},
+                "Crucible": {"_hint_text": "e.g. W", "_btmlbl": "e.g. W"},
+                "Atmosphere": {"_hint_text": "e.g. Ar, N2", "_btmlbl": "e.g. Ar, N2"},
+                "Pressure": {"_hint_text": "e.g. 150 MPa", "_btmlbl": "e.g. 150 MPa"},
+                "Ansatz No.": {"_hint_text": "e.g. 520", "_btmlbl": "e.g. 520"},
             },
-            "Atmosphere": {
-                "_hint_text": "e.g. Vacuum, N2, Ar",
-                "_btmlbl": "e.g. Vacuum, N2, Ar"
-            }
-        },
-        "DSC": {
-            "Modus": {
-                "_hint_text": "e.g. TG, DSC, TG/DSC",
-                "_btmlbl": "e.g. TG, DSC, TG/DSC"
+            "Multianvil Press": {
+                "Method ID": {
+                    "_hint_text": "e.g. old, new",
+                    "_btmlbl": "e.g. old, new",
+                },
+                "Crucible": {
+                    "_hint_text": "e.g. BN, Ta-Inlay",
+                    "_btmlbl": "e.g. BN, Ta-Inlay",
+                },
+                "Size": {
+                    "_hint_text": "e.g. 14/8, 18/11",
+                    "_btmlbl": "e.g. 14/8, 18/11",
+                },
+                "Pressure": {"_hint_text": "e.g. 5 GPa", "_btmlbl": "e.g. 5 GPa"},
+                "Oil Pressure": {
+                    "_hint_text": "e.g. 230 bar",
+                    "_btmlbl": "e.g. 230 bar",
+                },
+                "Heating Capacity": {"_hint_text": "e.g. 24 %", "_btmlbl": "e.g. 24 %"},
             },
-            "Crucible": {
-                "_hint_text": "e.g. Ta, Al2O3, Cu",
-                "_btmlbl": "e.g. Ta, Al2O3, Cu"
+            "Ammonothermal": {
+                "Autoclave": {
+                    "_hint_text": "e.g. 2010-002",
+                    "_btmlbl": "e.g. 2010-002",
+                },
+                "V(Autoclave)": {"_hint_text": "e.g. 93 ml", "_btmlbl": "e.g. 93 ml"},
+                "Liner": {"_hint_text": "e.g. Si3N4", "_btmlbl": "e.g. Si3N4"},
+                "V(NH[sub][size=10.5sp]3[/size][/sub])": {
+                    "_hint_text": "e.g. 9000 l",
+                    "_btmlbl": "e.g. 9000 l",
+                },
+                "Pressure": {"_hint_text": "e.g. 50 bar", "_btmlbl": "e.g. 50 bar"},
             },
-            "Atmosphere": {
-                "_hint_text": "e.g. Ar",
-                "_btmlbl": "e.g. Ar"
-            },
-            "Gas Flow": {
-                "_hint_text": "e.g. 5 ml/min",
-                "_btmlbl": "e.g. 5 ml/min"
-            }
-        },
-        "HIP": {
-            "Method ID": {
-                "_hint_text": "e.g. hippo",
-                "_btmlbl": "e.g. hippo"
-            },
-            "Crucible": {
-                "_hint_text": "e.g. W",
-                "_btmlbl": "e.g. W"
-            },
-            "Atmosphere": {
-                "_hint_text": "e.g. Ar, N2",
-                "_btmlbl": "e.g. Ar, N2"
-            },
-            "Pressure": {
-                "_hint_text": "e.g. 150 MPa",
-                "_btmlbl": "e.g. 150 MPa"
-            },
-            "Ansatz No.": {
-                "_hint_text": "e.g. 520",
-                "_btmlbl": "e.g. 520"
-            },
-        },
-        "Multianvil Press": {
-            "Method ID": {
-                "_hint_text": "e.g. old, new",
-                "_btmlbl": "e.g. old, new"
-            },
-            "Crucible": {
-                "_hint_text": "e.g. BN, Ta-Inlay",
-                "_btmlbl": "e.g. BN, Ta-Inlay"
-            },
-            "Size": {
-                "_hint_text": "e.g. 14/8, 18/11",
-                "_btmlbl": "e.g. 14/8, 18/11"
-            },
-            "Pressure": {
-                "_hint_text": "e.g. 5 GPa",
-                "_btmlbl": "e.g. 5 GPa"
-            },
-            "Oil Pressure": {
-                "_hint_text": "e.g. 230 bar",
-                "_btmlbl": "e.g. 230 bar"
-            },
-            "Heating Capacity": {
-                "_hint_text": "e.g. 24 %",
-                "_btmlbl": "e.g. 24 %"
-            }
-        },
-        "Ammonothermal": {
-            "Autoclave": {
-                "_hint_text": "e.g. 2010-002",
-                "_btmlbl": "e.g. 2010-002"
-            },
-            "V(Autoclave)": {
-                "_hint_text": "e.g. 93 ml",
-                "_btmlbl": "e.g. 93 ml"
-            },
-            "Liner": {
-                "_hint_text": "e.g. Si3N4",
-                "_btmlbl": "e.g. Si3N4"
-            },
-            "V(NH[sub][size=10.5sp]3[/size][/sub])": {
-                "_hint_text": "e.g. 9000 l",
-                "_btmlbl": "e.g. 9000 l"
-            },
-            "Pressure": {
-                "_hint_text": "e.g. 50 bar",
-                "_btmlbl": "e.g. 50 bar"
-            }
         }
-    })
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -2544,7 +2561,7 @@ class TempProg(BoxLayout, ThemableBehavior):
             parameter = TextBox(
                 _lbl=i,
                 _hint_text=method_dict[i]["_hint_text"],
-                _btmlbl=method_dict[i]["_btmlbl"]
+                _btmlbl=method_dict[i]["_btmlbl"],
             )
 
             self.method_parameters.append(parameter)
@@ -2552,11 +2569,7 @@ class TempProg(BoxLayout, ThemableBehavior):
 
     def add_tp_row(self):
         segno = len(self.tp_rows) + 2
-        seg = Label(
-            text=str(segno),
-            size_hint_x=None,
-            width=10
-        )
+        seg = Label(text=str(segno), size_hint_x=None, width=10)
         tstart = PlainTxtFld()
         ramp = PlainTxtFld()
         tend = PlainTxtFld()
@@ -2656,8 +2669,7 @@ class User(Screen, ThemableBehavior):
             title="Delete operator?",
             text="Are you sure to delete this operator and all his files?",
         )
-        self.settings_dict = pickle.load(
-            open("assets/std_settings.pkl", "rb"))
+        self.settings_dict = pickle.load(open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
 
         Clock.schedule_once(lambda dt: self.user_btns())
@@ -2676,7 +2688,11 @@ class User(Screen, ThemableBehavior):
         else:
 
             if "save" in args:
-                if not self.ids.givenname.txtfld.text or not self.ids.abbrev.txtfld.text or not self.ids.lastname.txtfld.text:
+                if (
+                    not self.ids.givenname.txtfld.text
+                    or not self.ids.abbrev.txtfld.text
+                    or not self.ids.lastname.txtfld.text
+                ):
                     self.infopop.title = "Minimum requirements not met"
                     self.infopop.text = "Please fill all fields."
                     self.infopop.open()
@@ -2699,8 +2715,14 @@ class User(Screen, ThemableBehavior):
         self.user = []
 
         for i in self.ops_dict:
-            operator = self.ops_dict[i]["givenname"] + " " + \
-                self.ops_dict[i]["lastname"] + " (" + i + ")"
+            operator = (
+                self.ops_dict[i]["givenname"]
+                + " "
+                + self.ops_dict[i]["lastname"]
+                + " ("
+                + i
+                + ")"
+            )
             self.user.append(operator)
 
         self.user.sort()
@@ -2727,9 +2749,7 @@ class User(Screen, ThemableBehavior):
                     self.search_result.append(j)
 
         for i in self.search_result:
-            btndict = {
-                "user": i
-            }
+            btndict = {"user": i}
             self.userlist.append(btndict)
 
     def new_user(self):
@@ -2764,14 +2784,20 @@ class User(Screen, ThemableBehavior):
         self.ops_dict[self.ids.abbrev.txtfld.text] = user_dict
         self.settings_dict["OPERATOR"] = self.ops_dict
         print(self.ops_dict)
-        pickle.dump(self.settings_dict, open(
-            "assets/std_settings.pkl", "wb"))
+        pickle.dump(self.settings_dict, open("assets/std_settings.pkl", "wb"))
         self.user_btns()
         self.new_user()
         self.update_ops()
 
-        self.op = user_dict["givenname"] + " " + \
-            user_dict["lastname"] + " " + "(" + user_dict["abbrev"] + ")"
+        self.op = (
+            user_dict["givenname"]
+            + " "
+            + user_dict["lastname"]
+            + " "
+            + "("
+            + user_dict["abbrev"]
+            + ")"
+        )
 
         if not os.path.exists(home + "/" + self.op):
             os.makedirs(home + "/" + self.op)
@@ -2779,16 +2805,16 @@ class User(Screen, ThemableBehavior):
             os.makedirs(home + "/" + self.op + "/pdf")
         if not os.path.exists(home + "/" + self.op + "/tex"):
             os.makedirs(home + "/" + self.op + "/tex")
-        if not os.path.exists(home + "/" + self.op + "/" + self.op + "_experiments.idx"):
-            f = open(home + "/" + self.op + "/" +
-                     self.op + "_experiments.idx", "w")
+        if not os.path.exists(
+            home + "/" + self.op + "/" + self.op + "_experiments.idx"
+        ):
+            f = open(home + "/" + self.op + "/" + self.op + "_experiments.idx", "w")
 
     def delete_user(self):
         self.ops_dict.pop(self.ids.abbrev.txtfld.text)
 
         self.settings_dict["OPERATOR"] = self.ops_dict
-        pickle.dump(self.settings_dict, open(
-            "assets/std_settings.pkl", "wb"))
+        pickle.dump(self.settings_dict, open("assets/std_settings.pkl", "wb"))
 
         self.new_user()
         self.user_btns()
@@ -2816,8 +2842,7 @@ class User(Screen, ThemableBehavior):
     def on_enter(self):
         Window.bind(on_key_down=self.key_action)
         self.ids.givenname.txtfld.focus = True
-        self.settings_dict = pickle.load(
-            open("assets/std_settings.pkl", "rb"))
+        self.settings_dict = pickle.load(open("assets/std_settings.pkl", "rb"))
         self.ops_dict = self.settings_dict["OPERATOR"]
 
     def on_leave(self, *args):
@@ -2827,7 +2852,13 @@ class User(Screen, ThemableBehavior):
         ops_list = []
         for i in self.ops_dict:
             ops_list.append(
-                self.ops_dict[i]["givenname"] + " " + self.ops_dict[i]["lastname"] + " (" + i + ")")
+                self.ops_dict[i]["givenname"]
+                + " "
+                + self.ops_dict[i]["lastname"]
+                + " ("
+                + i
+                + ")"
+            )
 
         ops_list.sort()
         self.container.ops_list = ops_list

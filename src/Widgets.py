@@ -2,7 +2,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
-from kivy.properties import ObjectProperty, StringProperty, ListProperty, NumericProperty, BooleanProperty
+from kivy.properties import (
+    ObjectProperty,
+    StringProperty,
+    ListProperty,
+    NumericProperty,
+    BooleanProperty,
+)
 from kivymd.uix.list import OneLineIconListItem
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.uix.behaviors import ButtonBehavior, FocusBehavior
@@ -146,16 +152,16 @@ class ButtonGrid_Info(ButtonBehavior, HoverBehavior, GridLayout, ThemableBehavio
             self.root.importpopup.dismiss()
 
     def on_enter(self, *args):
-        '''The method will be called when the mouse cursor
-        is within the borders of the current widget.'''
+        """The method will be called when the mouse cursor
+        is within the borders of the current widget."""
         if self.spinner.spnfld.is_open:
             return
 
         self.bg_color = self.theme_cls.primary_color
 
     def on_leave(self, *args):
-        '''The method will be called when the mouse cursor goes beyond
-        the borders of the current widget.'''
+        """The method will be called when the mouse cursor goes beyond
+        the borders of the current widget."""
 
         self.bg_color = [1, 1, 1, 0]
 
@@ -180,16 +186,16 @@ class ButtonGrid_Reac(ButtonBehavior, HoverBehavior, GridLayout, ThemableBehavio
             self.root.importpopup.dismiss()
 
     def on_enter(self, *args):
-        '''The method will be called when the mouse cursor
-        is within the borders of the current widget.'''
+        """The method will be called when the mouse cursor
+        is within the borders of the current widget."""
         if self.spinner.spnfld.is_open:
             return
 
         self.bg_color = self.theme_cls.accent_light
 
     def on_leave(self, *args):
-        '''The method will be called when the mouse cursor goes beyond
-        the borders of the current widget.'''
+        """The method will be called when the mouse cursor goes beyond
+        the borders of the current widget."""
 
         self.bg_color = [1, 1, 1, 0]
 
@@ -213,16 +219,16 @@ class ButtonGrid_SWI(ButtonBehavior, HoverBehavior, GridLayout, ThemableBehavior
             self.root.importpopup.dismiss()
 
     def on_enter(self, *args):
-        '''The method will be called when the mouse cursor
-        is within the borders of the current widget.'''
+        """The method will be called when the mouse cursor
+        is within the borders of the current widget."""
         if self.spinner.spnfld.is_open:
             return
 
         self.bg_color = self.theme_cls.accent_light
 
     def on_leave(self, *args):
-        '''The method will be called when the mouse cursor goes beyond
-        the borders of the current widget.'''
+        """The method will be called when the mouse cursor goes beyond
+        the borders of the current widget."""
 
         self.bg_color = [1, 1, 1, 0]
 
@@ -246,16 +252,16 @@ class ButtonGrid_One(ButtonBehavior, HoverBehavior, GridLayout, ThemableBehavior
             self.root.importpopup.dismiss()
 
     def on_enter(self, *args):
-        '''The method will be called when the mouse cursor
-        is within the borders of the current widget.'''
+        """The method will be called when the mouse cursor
+        is within the borders of the current widget."""
         if self.spinner.spnfld.is_open:
             return
 
         self.bg_color = self.theme_cls.accent_light
 
     def on_leave(self, *args):
-        '''The method will be called when the mouse cursor goes beyond
-        the borders of the current widget.'''
+        """The method will be called when the mouse cursor goes beyond
+        the borders of the current widget."""
 
         self.bg_color = [1, 1, 1, 0]
 
@@ -315,7 +321,7 @@ class CstmSpin(ButtonBehavior, BoxLayout):
             position="auto",
             width_mult=4,
             callback=self.set_item,
-            opening_time=0
+            opening_time=0,
             # max_height = 60
         )
 
@@ -464,12 +470,7 @@ class ImportPopup(ModalView, ThemableBehavior):
             ("Sample ID", 1),
             ("Idea", 8),
         ],
-        "reaction": [
-            ("Sample ID", 1),
-            ("Reactants", 4),
-            ("", None),
-            ("Products", 4)
-        ],
+        "reaction": [("Sample ID", 1), ("Reactants", 4), ("", None), ("Products", 4)],
         "swi": [
             ("Sample ID", 1),
             ("Reactants (Eq)", 8),
@@ -488,9 +489,11 @@ class ImportPopup(ModalView, ThemableBehavior):
         ],
         "tp": [
             ("Sample ID", 1),
-            ("Temperature Program (Segment: T[sub][size=10sp]start[/size][/sub] | Ramp | T[sub][size=10sp]end[/size][/sub] | Dwell)", 8),
+            (
+                "Temperature Program (Segment: T[sub][size=10sp]start[/size][/sub] | Ramp | T[sub][size=10sp]end[/size][/sub] | Dwell)",
+                8,
+            ),
         ],
-
         "ap": [
             ("Sample ID", 1),
             ("Appearance", 8),
@@ -506,7 +509,7 @@ class ImportPopup(ModalView, ThemableBehavior):
         "res": [
             ("Sample ID", 1),
             ("Conclusion", 8),
-        ]
+        ],
     }
 
     def __init__(self, **kwargs):
@@ -520,11 +523,7 @@ class ImportPopup(ModalView, ThemableBehavior):
             # if self.module == "reaction":
             #     customwidth =
 
-            col_title = Factory.ALbl(
-                text=i[0],
-                size_hint_x=i[1],
-                width=50
-            )
+            col_title = Factory.ALbl(text=i[0], size_hint_x=i[1], width=50)
             self.ids.col_titles.add_widget(col_title)
 
         Clock.schedule_once(lambda dt: self.create_content(self.op))
@@ -544,7 +543,8 @@ class ImportPopup(ModalView, ThemableBehavior):
     def create_content(self, op):
         self.btngrid_list = []
         expdict = pickle.load(
-            open(self.home + "/" + op + "/" + op + "_experiments.idx", "rb"))
+            open(self.home + "/" + op + "/" + op + "_experiments.idx", "rb")
+        )
 
         # Get the search filter and split them into its elements
         searchinput = self.ids.filter.text
@@ -657,7 +657,10 @@ class ImportPopup(ModalView, ThemableBehavior):
                         search_results.append(n)
 
             for i in search_results:
-                if expdict[i]["REACTION"]["REACTANTS"] or expdict[i]["REACTION"]["PRODUCTS"]:
+                if (
+                    expdict[i]["REACTION"]["REACTANTS"]
+                    or expdict[i]["REACTION"]["PRODUCTS"]
+                ):
                     try:
                         btngrid_dict = {
                             "root": self.editor,
@@ -666,7 +669,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                             "op": self.ids.op.method,
                             "sampleid": i,
                             "reactants": expdict[i]["REACTION"]["REACTANTSBAL"],
-                            "products": expdict[i]["REACTION"]["PRODUCTSBAL"]
+                            "products": expdict[i]["REACTION"]["PRODUCTSBAL"],
                         }
                     except:
                         btngrid_dict = {
@@ -676,7 +679,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                             "op": self.ids.op.method,
                             "sampleid": i,
                             "reactants": "",
-                            "products": ""
+                            "products": "",
                         }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -706,8 +709,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         if m == expdict[i]["SWI"]["REACTANTS"][-1]:
                             rceq_list += trgt + " (" + m["EQUIVALENT"] + ")"
                         else:
-                            rceq_list += trgt + \
-                                " (" + m["EQUIVALENT"] + "),   "
+                            rceq_list += trgt + " (" + m["EQUIVALENT"] + "),   "
 
                 if rceq_list != "":
                     btngrid_dict = {
@@ -716,7 +718,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "reactants": rceq_list
+                        "reactants": rceq_list,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -734,7 +736,11 @@ class ImportPopup(ModalView, ThemableBehavior):
                     search_ids = search_results
                     search_results = []
                     for n in search_ids:
-                        if f in expdict[n]["SWI"]["ADDITIVES"] or f in n and n not in search_results:
+                        if (
+                            f in expdict[n]["SWI"]["ADDITIVES"]
+                            or f in n
+                            and n not in search_results
+                        ):
                             search_results.append(n)
 
                 for i in search_results:
@@ -749,7 +755,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                             "module": self.module,
                             "op": self.ids.op.method,
                             "sampleid": i,
-                            "one_cnt": epd
+                            "one_cnt": epd,
                         }
 
                         self.btngrid_list.append(btngrid_dict)
@@ -791,7 +797,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "one_cnt": md_list
+                        "one_cnt": md_list,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -808,7 +814,11 @@ class ImportPopup(ModalView, ThemableBehavior):
                 search_ids = search_results
                 search_results = []
                 for n in search_ids:
-                    if f in expdict[n]["TP"]["EXPERIMENTAL DETAILS"] or f in n and n not in search_results:
+                    if (
+                        f in expdict[n]["TP"]["EXPERIMENTAL DETAILS"]
+                        or f in n
+                        and n not in search_results
+                    ):
                         search_results.append(n)
 
             for i in search_results:
@@ -823,7 +833,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "one_cnt": epd
+                        "one_cnt": epd,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -872,7 +882,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "one_cnt": tp_list
+                        "one_cnt": tp_list,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -949,7 +959,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "one_cnt": ana
+                        "one_cnt": ana,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -980,7 +990,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "one_cnt": ap
+                        "one_cnt": ap,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -1018,8 +1028,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         if n == prod[-1]:
                             prod_list += n["IDENTIFIER"] + ":  " + product
                         else:
-                            prod_list += n["IDENTIFIER"] + \
-                                ":  " + product + ",   "
+                            prod_list += n["IDENTIFIER"] + ":  " + product + ",   "
 
                     # for m in n:
                     #     if n[m] == "":
@@ -1038,7 +1047,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "one_cnt": prod_list
+                        "one_cnt": prod_list,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -1071,7 +1080,7 @@ class ImportPopup(ModalView, ThemableBehavior):
                         "module": self.module,
                         "op": self.ids.op.method,
                         "sampleid": i,
-                        "one_cnt": concl
+                        "one_cnt": concl,
                     }
 
                     self.btngrid_list.append(btngrid_dict)
@@ -1207,7 +1216,7 @@ class ReactantBtn(ButtonBehavior, HoverBehavior, GridLayout, ThemableBehavior):
             self.reactants.infopop.is_open,
             self.reactants.savedialog.is_open,
             self.reactants.deletedialog.is_open,
-            self.container.ids.op.spnfld.is_open
+            self.container.ids.op.spnfld.is_open,
         ]
 
         for i in popup_list:
@@ -1264,8 +1273,9 @@ class SearchPopup(ModalView, ThemableBehavior):
         Window.unbind(on_key_down=self.key_action)
 
     def update_popup(self):
-        self.exp_dict = pickle.load(open(
-            self.home + "/" + self.op + "/" + self.op + "_experiments.idx", "rb"))[self.sid]
+        self.exp_dict = pickle.load(
+            open(self.home + "/" + self.op + "/" + self.op + "_experiments.idx", "rb")
+        )[self.sid]
 
         # INFO
         self.ids.info.clear_widgets()
@@ -1275,15 +1285,17 @@ class SearchPopup(ModalView, ThemableBehavior):
         for i in self.exp_dict["INFORMATION"]:
 
             if i == "IDEA":
-                self.ids.info.add_widget(WrappedPopLabel(
-                    title=i, value=self.exp_dict["INFORMATION"][i]))
+                self.ids.info.add_widget(
+                    WrappedPopLabel(title=i, value=self.exp_dict["INFORMATION"][i])
+                )
 
             elif i == "TARGET":
                 trgt = chemify(self.exp_dict["INFORMATION"][i], 15)
                 self.ids.info.add_widget(PopLabel(title=i, value=trgt))
             else:
                 self.ids.info.add_widget(
-                    PopLabel(title=i, value=self.exp_dict["INFORMATION"][i]))
+                    PopLabel(title=i, value=self.exp_dict["INFORMATION"][i])
+                )
 
         # REACTION
         try:
@@ -1296,8 +1308,13 @@ class SearchPopup(ModalView, ThemableBehavior):
         # SampleWeighIn
         self.ids.swi_grid.clear_widgets()
 
-        columnnames = ["Reactants", "Eq",
-                       "M / g·mol[sup][size=10sp]-1[/size][/sup]", "n / mmol", "m / mg"]
+        columnnames = [
+            "Reactants",
+            "Eq",
+            "M / g·mol[sup][size=10sp]-1[/size][/sup]",
+            "n / mmol",
+            "m / mg",
+        ]
         self.netweight = self.exp_dict["SWI"]["NET WEIGHT"]
 
         for i in columnnames:
@@ -1320,16 +1337,21 @@ class SearchPopup(ModalView, ThemableBehavior):
 
         for i in self.exp_dict["TP"]["METHOD"]:
             if self.exp_dict["TP"]["METHOD"][i] == "":
-                self.ids.method_grid.add_widget(
-                    PopLabel(title=i, value="None"))
+                self.ids.method_grid.add_widget(PopLabel(title=i, value="None"))
             else:
                 self.ids.method_grid.add_widget(
-                    PopLabel(title=i, value=self.exp_dict["TP"]["METHOD"][i]))
+                    PopLabel(title=i, value=self.exp_dict["TP"]["METHOD"][i])
+                )
 
         # TP
         self.ids.tp_grid.clear_widgets()
-        columnnames = ["Seg.", "T[sub][size=13sp]start[/size][/sub]",
-                       "Ramp", "T[sub][size=13sp]end[/size][/sub]", "Dwell"]
+        columnnames = [
+            "Seg.",
+            "T[sub][size=13sp]start[/size][/sub]",
+            "Ramp",
+            "T[sub][size=13sp]end[/size][/sub]",
+            "Dwell",
+        ]
         columnunits = list(self.exp_dict["TP"]["UNITS"].values())
         # for i,j in enumerate(self.exp_dict["TP"]["UNITS"]):
         #     if i%2 == 0:
@@ -1341,7 +1363,8 @@ class SearchPopup(ModalView, ThemableBehavior):
                 self.ids.tp_grid.add_widget(tplbl)
             else:
                 tplbl = SWILbl(
-                    text=columnnames[i] + "  /  " + columnunits[i-1], bold=True)
+                    text=columnnames[i] + "  /  " + columnunits[i - 1], bold=True
+                )
                 self.ids.tp_grid.add_widget(tplbl)
 
         for i in self.exp_dict["TP"]["PROGRAM"]:
@@ -1382,9 +1405,9 @@ class SearchPopup(ModalView, ThemableBehavior):
                         prods += trgt
 
                 self.ids.product_grid.add_widget(
-                    SWILbl(text=i["IDENTIFIER"] + ":", bold=True))
-                self.ids.product_grid.add_widget(
-                    Factory.WrappedLabel(text=prods))
+                    SWILbl(text=i["IDENTIFIER"] + ":", bold=True)
+                )
+                self.ids.product_grid.add_widget(Factory.WrappedLabel(text=prods))
 
         # conclusion
         self.concl = self.exp_dict["RESULT"]["CONCLUSION"]
@@ -1408,17 +1431,18 @@ class SearchViewClass(ButtonBehavior, HoverBehavior, BoxLayout, ThemableBehavior
         super(SearchViewClass, self).__init__(**kwargs)
 
     def on_release(self):
-        self.search.setattrs(self.searchpop,
-                             sid=self.sid,
-                             op=self.op,
-                             tag=self.tag,
-                             trgt=self.trgt,
-                             search_elements=self.search_elements,
-                             metabb=self.method_abbrev,
-                             metcol=self.method_color,
-                             mettxtcol=self.method_color_text,
-                             editor=self.editor
-                             )
+        self.search.setattrs(
+            self.searchpop,
+            sid=self.sid,
+            op=self.op,
+            tag=self.tag,
+            trgt=self.trgt,
+            search_elements=self.search_elements,
+            metabb=self.method_abbrev,
+            metcol=self.method_color,
+            mettxtcol=self.method_color_text,
+            editor=self.editor,
+        )
 
         self.searchpop.open()
         self.searchpop.update_popup()
@@ -1426,7 +1450,7 @@ class SearchViewClass(ButtonBehavior, HoverBehavior, BoxLayout, ThemableBehavior
     def on_enter(self):
         if self.searchpop.is_open:
             return
-        self.bg = [.95, .95, .95, 1]
+        self.bg = [0.95, 0.95, 0.95, 1]
 
     def on_leave(self):
         self.bg = [1, 1, 1, 1]
@@ -1487,10 +1511,7 @@ class SpinBox(BoxLayout):
     btmlbl = ObjectProperty()
 
 
-class SWIGrid(
-    GridLayout,
-    HoverBehavior
-):
+class SWIGrid(GridLayout, HoverBehavior):
     btnbox = ObjectProperty()
     mass = ObjectProperty()
     swi = ObjectProperty()
@@ -1506,15 +1527,15 @@ class SWIGrid(
         self.delbox = BoxLayout(
             size_hint=(None, None),
             size=(40, 40),
-            padding=(7.5, 7.5),
+            padding=[7.5, 7.5],
         )
 
         self.delbtn = IcnBtn(
             icon="close",
             size=(25, 25),
-            bg_color=[181/255, 0/255, 16/255, 1],
+            bg_color=[181 / 255, 0 / 255, 16 / 255, 1],
             text_color=[1, 1, 1, 1],
-            on_release=lambda x: self.swi.delete_selected_row(self)
+            on_release=lambda x: self.swi.delete_selected_row(self),
         )
 
         self.delbox.add_widget(self.delbtn)
@@ -1527,6 +1548,7 @@ class SWIGrid(
     def on_leave(self, *args):
         self.remove_widget(self.delbox)
         self.add_widget(self.lbl)
+
     pass
 
 

@@ -2,6 +2,7 @@
 #: import Factory kivy.factory.Factory
 #: import Window kivy.core.window
 #:import images_path kivymd.images_path
+#:import dp kivy.metrics.dp
 
 <AdaptBoxHeight@BoxLayout>:
     size_hint_y: None
@@ -65,7 +66,7 @@
     cols: 3
     size_hint_y: None
     height: 50
-    padding: "48dp", 0
+    padding: dp(48), 0
     spacing: 15
     canvas:
         Color:
@@ -94,7 +95,7 @@
     cols: 4
     size_hint_y: None
     height: 50
-    padding: "48dp", 0
+    padding: dp(48), 0
     spacing: 15
     canvas:
         Color:
@@ -124,7 +125,7 @@
     cols: 2
     size_hint_y: None
     height: 50
-    padding: "48dp", 0
+    padding: dp(48), 0
     spacing: 15
     canvas:
         Color:
@@ -147,7 +148,7 @@
     cols: 2
     size_hint_y: None
     height: 50
-    padding: "48dp", 0
+    padding: dp(48), 0
     spacing: 15
     canvas:
         Color:
@@ -213,7 +214,7 @@
 # <ImportCnt>:
 #     size_hint_y: None
 #     height: 50
-#     padding: "48dp", 0
+#     padding: dp(48), 0
 #     spacing: 15
 #     canvas:
 #         Color:
@@ -240,7 +241,7 @@
 
 <ContentNavigationDrawer>:
     orientation: "vertical"
-    padding: "8dp"
+    padding: dp(8)
     spacing: "8dp"
 
     BoxLayout:
@@ -621,7 +622,7 @@
             BoxLayout:
                 size_hint_y: None
                 height: self.minimum_height
-                # padding: "48dp", 0
+                # padding: dp(48), 0
 
                 SpinBox:
                     id: op
@@ -646,7 +647,7 @@
             cols: len(root.names_dict[root.module])
             size_hint_y: None
             height: 50
-            padding: "48dp", 0
+            padding: dp(48), 0
             spacing: 15
 
             canvas.before:
@@ -676,7 +677,7 @@
         AnchorLayout:
             id: root_button_box
             size_hint_y: None
-            height: "52dp"
+            height: dp(52)
             anchor_x: "right"
             anchor_y: "bottom"
 
@@ -1593,7 +1594,7 @@
     size_hint_y: None
     height: self.minimum_height
     orientation: "vertical"
-    padding: "48dp",15,"48dp",15
+    padding: dp(48),15,dp(48),15
     spacing: 10
     canvas:
         Color:

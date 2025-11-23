@@ -130,22 +130,13 @@
             _halign: "left"
 
 <Container>:
-    id: container
-    editor: editor
-    sm: screen_manager
-    canvas.before:
-        Color:
-            rgba: 1,1,1,1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-    NavigationLayout:
-        size_hint_y: None
-        height: root.height - toolbar.height
-        pos_hint: {"x": 0, "y": 0}
-
-
+    # editor: editor
+    # ops_list: editor.ops_list
+    # ops_dict: editor.ops_dict
+    #BoxLayout:
+    #    orientation: "vertical"
+    MDNavigationLayout: # Changed from NavigationLayout
+        id: nav_layout
         ScreenManager:
             id: screen_manager
             transition: NoTransition()
@@ -235,7 +226,7 @@
             height: toolbar.height
             width: self.minimum_width
             pos_hint: {"right": 1, "top": 1}
-            padding: 0,0,"48dp",0
+            padding: 0,0,dp(48),0 # Changed from padding: 0,0,dp(48),0
 
             BoxLayout:
                 size_hint_x: None
@@ -302,7 +293,7 @@
             BoxLayout:
                 size_hint_x: None
                 width: sidebar.width
-                padding: "48dp", 0, 0, 0
+                padding: dp(48), 0, 0, 0 # Changed from dp(48)
 
                 Label:
                     text: "Editor"
@@ -313,7 +304,7 @@
                     width: self.texture_size[0]
 
             BoxLayout:
-                padding: 30,0, "48dp", 0
+                padding: 30,0, dp(48), 0 # Changed from dp(48)
 
                 # FltBtn:
                 #     text: "Close all"
@@ -537,7 +528,7 @@
             id: functionbar
             size_hint_y: None
             height: 60
-            padding: 30,0, "48dp", 0
+            padding: 30,0, dp(48), 0
             canvas.before:
                 Color:
                     rgba: .9,.9,.9,1
@@ -773,7 +764,7 @@
             size: self.size
 
     BoxLayout:
-        padding: "48dp",0, "48dp", 20
+        padding: dp(48),0, dp(48), 20
         orientation: "vertical"
 
         BoxLayout:
@@ -1037,7 +1028,7 @@
             padding: 0,0
 
             BoxLayout:
-                padding: "48dp",0, "48dp", 0
+                padding: dp(48),0, dp(48), 0
 
                 Label:
                     text: "Reactants"
@@ -1084,7 +1075,7 @@
                 BoxLayout:
                     size_hint_y: None
                     height: self.minimum_height
-                    padding: "48dp",20,"48dp",20
+                    padding: dp(48),20,dp(48),20
                     spacing: 15
                     canvas.before:
                         Color:
@@ -1133,7 +1124,7 @@
                 BoxLayout:
                     size_hint_y: None
                     height: self.minimum_height
-                    padding: "48dp",20,"48dp",20
+                    padding: dp(48),20,dp(48),20
                     spacing: 15
                     canvas.before:
                         Color:
@@ -1155,7 +1146,7 @@
                     # size_hint_y: None
                     # height: self.minimum_height
                     orientation: "vertical"
-                    padding: "48dp",20,"48dp",20
+                    padding: dp(48),20,dp(48),20
                     spacing: 15
                     canvas.before:
                         Color:
@@ -1225,7 +1216,7 @@
                 # BoxLayout:
                 #     # size_hint_y: None
                 #     # height: self.minimum_height
-                #     padding: "48dp",20,"48dp",20
+                #     padding: dp(48),20,dp(48),20
                 #     spacing: 15
                 #     canvas.before:
                 #         Color:
@@ -1687,7 +1678,7 @@
             id: functionbar
             size_hint_y: None
             height: 60
-            padding: "48dp",0, "48dp", 0
+            padding: dp(48),0, dp(48), 0
 
             Label:
                 text: "Search"
@@ -1719,7 +1710,7 @@
 
             BoxLayout:
                 orientation: "vertical"
-                # padding: "48dp",40,"48dp",0
+                # padding: dp(48),40,dp(48),0
                 # size_hint_x: None
                 # width: 1200 - dp(96)
                 # pos_hint: {"center_x": .5}
@@ -1736,7 +1727,7 @@
                 BoxLayout:
                     size_hint_y: None
                     height: self.minimum_height
-                    padding: "48dp",20,"48dp",20
+                    padding: dp(48),20,dp(48),20
                     canvas.before:
                         Color:
                             rgba: 1,1,1,1
@@ -1757,7 +1748,7 @@
 
                 BoxLayout:
                     orientation: "vertical"
-                    padding: "48dp",20,"48dp",20
+                    padding: dp(48),20,dp(48),20
                     canvas.before:
                         Color:
                             rgba: 1,1,1,1
@@ -1769,7 +1760,7 @@
                     BoxLayout:
                         size_hint_y: None
                         height: 50
-                        padding: "48dp",20
+                        padding: dp(48),20
                         spacing: 20
                         canvas.before:
                             Color:
@@ -2052,7 +2043,7 @@
             id: functionbar
             size_hint_y: None
             height: 60
-            padding: "48dp", 0
+            padding: dp(48), 0
 
             Label:
                 text: "User"
@@ -2085,7 +2076,7 @@
 
         BoxLayout:
             spacing: 25
-            padding: "48dp",0,"48dp",20
+            padding: dp(48),0,dp(48),20
 
             BoxLayout
 
@@ -2169,7 +2160,7 @@
                         id: userinfo
                         orientation: "vertical"
                         spacing: 40
-                        padding: "48dp",0,"48dp",0
+                        padding: dp(48),0,dp(48),0
                         size_hint_y: None
                         height: self.minimum_height
 
@@ -2212,5 +2203,3 @@
                         #     _lbl: "Favorite movie"
                         #     _hint_text: "e.g. High School Musical 3"
                         #     _btmlbl: "e.g. High School Musical 3"
-
-            BoxLayout
